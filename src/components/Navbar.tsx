@@ -1,6 +1,8 @@
 import React from "react";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../utils/Auth"
+import axios from "axios";
 
 const CustomNavbar = () => {
   const navigate = useNavigate();
@@ -8,12 +10,8 @@ const CustomNavbar = () => {
   const role = localStorage.getItem("role");
 
   const handleLogout = () => {
-    // Clear user session data from localStorage
-    localStorage.removeItem("username");
-    localStorage.removeItem("role");
-
-    // Redirect to login page
-    navigate("/");
+    // Call the logoutUser function to handle the logout
+    logoutUser(navigate);
   };
 
   return (
