@@ -1,8 +1,10 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Form, Button, Alert, Spinner } from "react-bootstrap";
+import { Container, Card, Form, Button, Row, Col, Alert, Spinner } from "react-bootstrap";
 import axios from "axios";
-import { logoutUser } from "../utils/Auth"
+import { logoutUser } from "../utils/Auth";
+import VelorentLogo from "../components/VelorentLogo";
+
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -34,7 +36,7 @@ const Login = () => {
         setupIdleTimer();
 
         // Redirect to Home
-        navigate("/home");
+        navigate("/dashboard");
       } else {
         setError(message || "Login failed");
       }
@@ -74,43 +76,61 @@ const Login = () => {
   }, [idleTimer]);
 
   return (
-    <Container className="d-flex align-items-center justify-content-center" style={{ minHeight: "100vh" }}>
-      <div className="w-100" style={{ maxWidth: "400px" }}>
-        <Card className="shadow-sm">
-          <Card.Body>
-            <h2 className="text-center mb-4">VeloRent CMS Login</h2>
-            {error && <Alert variant="danger">{error}</Alert>}
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3" controlId="username">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                />
-              </Form.Group>
+    <div style={{ backgroundColor: "#F1F5F9", minHeight: "100vh", display: "flex", alignItems: "center" }}>
+      <Container>
+        <Row className="justify-content-center">
+          <Col md={6} lg={5}>
+            <Card className="p-4 shadow rounded-4">
+              <h2 style={{ color: "#0F172A", fontFamily: "Poppins", fontWeight: 600 }} className="text-center mb-4">
+                <div className="text-center mb-4">
+                  <VelorentLogo fontSize="3rem" />
+                </div>
+              </h2>
 
-              <Form.Group className="mb-4" controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </Form.Group>
+              {error && <Alert variant="danger">{error}</Alert>}
 
-              <Button variant="primary" type="submit" className="w-100" disabled={loading}>
-                {loading ? <Spinner animation="border" size="sm" /> : "Login"}
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-      </div>
-    </Container>
+              <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3">
+                  <Form.Label style={{ color: "#64748B", fontFamily: "Inter" }}>Username</Form.Label>
+                  <Form.Control
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    style={{ borderColor: "#CBD5E1", borderRadius: "12px" }}
+                    placeholder="Enter username"
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-4">
+                  <Form.Label style={{ color: "#64748B", fontFamily: "Inter" }}>Password</Form.Label>
+                  <Form.Control
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={{ borderColor: "#CBD5E1", borderRadius: "12px" }}
+                    placeholder="Enter password"
+                  />
+                </Form.Group>
+
+                <Button
+                  type="submit"
+                  className="w-100"
+                  style={{ backgroundColor: "#38BDF8", borderColor: "#38BDF8", fontWeight: "bold", borderRadius: "12px" }}
+                >
+                  Login
+                </Button>
+
+                <div className="text-center mt-3">
+                  <a href="#" style={{ color: "#38BDF8", textDecoration: "none" }}>
+                    Forgot password?
+                  </a>
+                </div>
+              </Form>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 };
 
