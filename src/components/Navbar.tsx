@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { Navbar, Nav, Container, Button, Dropdown, Image } from "react-bootstrap";
+import { Navbar, Nav, Container, Button, Dropdown, Image, NavDropdown } from "react-bootstrap";
 import { useNavigate, Link } from 'react-router-dom';
 import { logoutUser } from "../utils/Auth";
 import VelorentLogo from "../components/VelorentLogo";
+import { useUserDetails } from "../hooks/useUserDetails"; // Custom hook for user details
 // import { User } from "lucide-react"; // Optional icon
 
 const CustomNavbar = () => {
   const navigate = useNavigate();
-  const username = localStorage.getItem("username");
-  const role = localStorage.getItem("role");
+
+  // Using custom hook for fetching user details and logout functionality
+  const { username, role } = useUserDetails();
 
   const handleLogout = () => {
     // Call the logoutUser function to handle the logout
@@ -27,7 +29,7 @@ const CustomNavbar = () => {
     >
       <Container fluid className="d-flex justify-content-between align-items-center">
 
-        {/* Left: Logo + User Dropdown */}
+        {/* Left: Logo */}
         <div className="d-flex align-items-center gap-3">
           <Navbar.Brand as={Link} to="/dashboard">
             <VelorentLogo fontSize="1.5rem" />
@@ -39,12 +41,20 @@ const CustomNavbar = () => {
           <Link to="/dashboard" className="nav-link text-[#0F172A] fw-semibold">
             Dashboard
           </Link>
+
+          {/* ✅ CHANGE: Add Car dropdown */}
+          <NavDropdown title="Car" id="nav-dropdown-car" className="fw-semibold">
+            <NavDropdown.Item as={Link} to="/cars">Manage Cars</NavDropdown.Item>
+            <NavDropdown.Item as={Link} to="/cars/add">Add New Car</NavDropdown.Item>
+          </NavDropdown>
+
+
           <Link to="/profile" className="nav-link text-[#0F172A] fw-semibold">
             Profile
           </Link>
         </Nav>
 
-        {/* Right side - empty or future use */}
+        {/* Right side: User */}
         <div>
           {/* User Icon + Dropdown */}
           {/* Right: User Icon + Dropdown */}
@@ -54,7 +64,8 @@ const CustomNavbar = () => {
                 id="dropdown-user"
                 className="d-flex align-items-center gap-2 border-0 bg-transparent text-[#0F172A]"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Welcome,
                 <span className="fw-semibold">{username}</span>
               </Dropdown.Toggle>
 
