@@ -1,6 +1,8 @@
 import React from "react";
 import { Row, Col, Card, Container } from "react-bootstrap";
 import CustomNavbar from '../../components/Navbar';
+import PageCard from "../../components/ui/PageCard";
+import PageLayout from "../../components/ui/PageLayout";
 import { useCarForm } from "../../hooks/useCarForm";
 import CarForm from "../../components/CarForm";
 import { addCar } from "../../services/carService";
@@ -22,24 +24,10 @@ export default function AddCar () {
   };
 
   return <>
-      <CustomNavbar />
-      <Container className="py-5">
-        <Row className="justify-content-center">
-          <Col xs={12} md={10} lg={8}>
-            <Card className="shadow-sm border-0 rounded-4">
-              <Card.Header
-                as="h5"
-                className="text-white rounded-top-4"
-                style={{ backgroundColor: "#1E293B", fontFamily: "Inter" }}
-              >
-                Add New Car
-              </Card.Header>
-              <Card.Body className="p-4">
-                <CarForm car={car} handleChange={handleChange} handleSubmit={handleSubmit} />
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <PageLayout>
+      <PageCard title="Add New Car">
+        <CarForm car={car} handleChange={handleChange} handleSubmit={handleSubmit} />
+      </PageCard>
+    </PageLayout>
+  </>
 };

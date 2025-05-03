@@ -6,7 +6,6 @@ import CarListPage from "./pages/Cars/CarList";
 import AddCarPage from "./pages/Cars/AddCar";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./utils/ProtectedRoute";
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function App () {
   return <>

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { Car } from "../types/Car";
+import TextField from "../components/ui/TextField";
+import SelectDropdown from "../components/ui/SelectDropdown";
+import PrimaryButton from "../components/ui/PrimaryButton";
 
 interface Props {
   car?: Car; // make it optional
@@ -76,10 +79,8 @@ const CarForm: React.FC<Props> = ({ car, onSubmit }) => {
           required
         />
       </Form.Group>
-
-      <Button type="submit" className="mt-3">
-        {car ? "Update Car" : "Add Car"}
-      </Button>
+      <br />
+      <PrimaryButton label={car ? "Update Car" : "Add Car"} type="submit" className="mt-3" />
     </Form>
   );
 };
