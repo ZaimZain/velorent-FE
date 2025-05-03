@@ -1,8 +1,8 @@
 import React from 'react';
 import CustomNavbar from '../components/Navbar';
 
-const Dashboard = () => {
-  return (
+export default function Dashboard () {
+  return <>
     <div>
       <CustomNavbar />
       <div className="container mt-5">
@@ -10,7 +10,6 @@ const Dashboard = () => {
         <p>This is your dashboard where you can manage car rentals, users, etc.</p>
       </div>
     </div>
-  );
+  </>
 };
 
-export default Dashboard;
