@@ -17,7 +17,7 @@ const CustomNavbar = () => {
     logoutUser(navigate);
   };
 
-  return (
+  return <>
     <Navbar
       expand="lg"
       className="bg-white shadow-sm rounded-xl px-4 py-2 mb-4"
@@ -80,7 +80,7 @@ const CustomNavbar = () => {
         </div>
       </Container>
     </Navbar>
-  );
+  </>
 };
 
 export default CustomNavbar;

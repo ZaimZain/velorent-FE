@@ -5,12 +5,12 @@ import TextField from "../components/ui/TextField";
 import SelectDropdown from "../components/ui/SelectDropdown";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
-interface Props {
+interface CarFormProps {
   car?: Car; // make it optional
   onSubmit: (formData: Car) => void;
 }
 
-const CarForm: React.FC<Props> = ({ car, onSubmit }) => {
+export default function CarForm ( { car, onSubmit } : CarFormProps) {
   const [formData, setFormData] = useState<Car>({
     id: car?.id || "", // Include ID if editing
     brand: car?.brand || "",
@@ -36,7 +36,7 @@ const CarForm: React.FC<Props> = ({ car, onSubmit }) => {
     onSubmit(formData);
   };
 
-  return (
+  return <>
     <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Label>Brand</Form.Label>
@@ -82,7 +82,5 @@ const CarForm: React.FC<Props> = ({ car, onSubmit }) => {
       <br />
       <PrimaryButton label={car ? "Update Car" : "Add Car"} type="submit" className="mt-3" />
     </Form>
-  );
+  </>
 };
-
-export default CarForm;

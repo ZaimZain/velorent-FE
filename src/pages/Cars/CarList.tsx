@@ -3,7 +3,7 @@ import { Card, Button, Spinner, Row, Col } from 'react-bootstrap';
 import { getCars } from '../../services/carService';
 import { Car } from '../../types/Car';
 
-const CarListPage: React.FC = () => {
+export default function CarListPage () {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -26,7 +26,7 @@ const CarListPage: React.FC = () => {
     return <div className="text-center mt-5"><Spinner animation="border" /></div>;
   }
 
-  return (
+  return <>
     <div className="container mt-4">
       <h2 className="mb-4">Car List</h2>
       <Row>
@@ -48,7 +48,6 @@ const CarListPage: React.FC = () => {
         ))}
       </Row>
     </div>
-  );
+  </>
 };
 
-export default CarListPage;

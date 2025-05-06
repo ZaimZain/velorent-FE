@@ -2,13 +2,12 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import CustomNavbar from '../../components/Navbar';
 
-interface Props {
+interface PageLayoutProps {
   children: React.ReactNode;
 }
 
-const PageLayout: React.FC<Props> = ({ children }) => {
-  return (
-    <>
+export default function PageLayout ({ children } : PageLayoutProps) {
+  return <>
       <CustomNavbar />
       <div style={{ backgroundColor: "#F1F5F9", minHeight: "100vh" }}>
         <Container className="py-5">
@@ -19,8 +18,6 @@ const PageLayout: React.FC<Props> = ({ children }) => {
           </Row>
         </Container>
       </div>
-    </>
-  );
+  </>
 };
 
-export default PageLayout;
