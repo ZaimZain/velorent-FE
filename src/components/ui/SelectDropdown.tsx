@@ -10,23 +10,23 @@ interface SelectDropdownProps {
   required?: boolean;
 }
 
-const SelectDropdown: React.FC<SelectDropdownProps> = ({
-  label,
-  name,
-  value,
-  onChange,
-  options,
-  required = false
-}) => (
-  <Form.Group className="mb-3">
-    <Form.Label>{label}</Form.Label>
-    <Form.Select name={name} value={value} onChange={onChange} required={required}>
-      <option value="">Select...</option>
-      {options.map((opt, idx) => (
-        <option key={idx} value={opt.value}>{opt.label}</option>
-      ))}
-    </Form.Select>
-  </Form.Group>
-);
-
-export default SelectDropdown;
+export default function SelectDropdown ({
+        label,
+        name,
+        value,
+        onChange,
+        options,
+        required = false
+    } : SelectDropdownProps) {
+        return <>
+          <Form.Group className="mb-3">
+            <Form.Label>{label}</Form.Label>
+            <Form.Select name={name} value={value} onChange={onChange} required={required}>
+              <option value="">Select...</option>
+              {options.map((opt, idx) => (
+                <option key={idx} value={opt.value}>{opt.label}</option>
+              ))}
+            </Form.Select>
+          </Form.Group>
+        </>
+};

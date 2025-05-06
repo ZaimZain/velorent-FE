@@ -11,26 +11,28 @@ interface TextFieldProps {
   placeholder?: string;
 }
 
-const TextField: React.FC<TextFieldProps> = ({
-  label,
-  name,
-  value,
-  onChange,
-  type = "text",
-  required = false,
-  placeholder = ""
-}) => (
-  <Form.Group className="mb-3">
-    <Form.Label>{label}</Form.Label>
-    <Form.Control
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      required={required}
-      placeholder={placeholder}
-    />
-  </Form.Group>
-);
 
-export default TextField;
+export default function TextField ( {
+    label,
+    name,
+    value,
+    onChange,
+    type = "text",
+    required = false,
+    placeholder = ""
+    } : TextFieldProps) {
+
+        return <>
+            <Form.Group className="mb-3">
+              <Form.Label>{label}</Form.Label>
+              <Form.Control
+                type={type}
+                name={name}
+                value={value}
+                onChange={onChange}
+                required={required}
+                placeholder={placeholder}
+              />
+            </Form.Group>
+        </>
+};
