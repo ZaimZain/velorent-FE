@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import CustomNavbar from '../../components/Navbar';
+import Sidebar from '../../components/Sidebar';
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -8,7 +8,7 @@ interface PageLayoutProps {
 
 export default function PageLayout ({ children } : PageLayoutProps) {
   return <>
-      <CustomNavbar />
+      <Sidebar />
       <div style={{ backgroundColor: "#F1F5F9", minHeight: "100vh" }}>
         <Container className="py-5">
           <Row className="justify-content-center">
