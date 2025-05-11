@@ -1,15 +1,13 @@
 import React from 'react';
-import CustomNavbar from '../components/Navbar';
+import PageCard from "../components/ui/PageCard";
+import PageLayout from "../components/ui/PageLayout";
 
 const Profile = () => {
   return <>
-    <div>
-      <CustomNavbar />
-      <div className="container mt-5">
-        <h2>Profile</h2>
-        <p>This is your profile page. Here you can edit your information.</p>
-      </div>
-    </div>
+    <PageLayout>
+      <PageCard title="Profile">
+      </PageCard>
+    </PageLayout>
   </>
 };
 
