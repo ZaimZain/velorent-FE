@@ -2,37 +2,25 @@ import { useState } from "react";
 import { Car } from "../types/Car";
 
 export const useCarForm = (initialValues?: Partial<Car>) => {
-  const [carData, setCarData] = useState<Partial<Car>>({
-    make: "",
+  const [car, setCar] = useState<Partial<Car>>({
+    brand: "",
     model: "",
     year: new Date().getFullYear(),
-    registrationNumber: "",
-    imageUrl: "",
-    ...initialValues, // useful if used for editing
+    pricePerDay: 0,
+    ...initialValues,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setCarData((prev) => ({
+    setCar((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "year" || name === "pricePerDay" ? Number(value) : value,
     }));
   };
 
-  const resetForm = () => {
-    setCarData({
-      make: "",
-      model: "",
-      year: new Date().getFullYear(),
-      registrationNumber: "",
-      imageUrl: "",
-    });
-  };
-
   return {
-    carData,
+    car,
     handleChange,
-    resetForm,
-    setCarData, // optional for future usage
+    setCar,
   };
 };

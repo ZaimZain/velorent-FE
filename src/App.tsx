@@ -2,8 +2,8 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import DashboardPage from "./pages/Dashboard";
-import CarListPage from "./pages/Cars/CarList";
-import AddCarPage from "./pages/Cars/AddCar";
+import CarListPage from "./pages/Cars/CarListPage";
+import AddCarPage from "./pages/Cars/AddCarPage";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
