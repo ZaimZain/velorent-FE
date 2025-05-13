@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Car } from '../types/Car';
 
-const API_URL = 'http://localhost:5000/api/cars'; // Change this to your real API
+const API_URL = 'http://localhost:8080/api/cars'; // Change this to your real API
 
 export const getCars = async (): Promise<Car[]> => {
   const response = await axios.get<Car[]>(API_URL);
