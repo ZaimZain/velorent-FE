@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Card, Form, Button, Row, Col, Alert, Spinner } from "react-bootstrap";
-import axios from "axios";
+import api from"../services/api";
 import { logoutUser } from "../utils/Auth";
 import VelorentLogo from "../components/VelorentLogo";
 
@@ -20,7 +20,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:8080/api/auth/login", {
+      const response = await api.post("/auth/login", {
         username,
         password,
       });
