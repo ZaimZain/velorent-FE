@@ -1,6 +1,6 @@
 import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Form, Button, Row, Col, Alert, Spinner } from "react-bootstrap";
+import { Container, Card, Form, Button, Row, Col, Alert } from "react-bootstrap";
 import api from"../services/api";
 import { logoutUser } from "../utils/Auth";
 import VelorentLogo from "../components/VelorentLogo";
@@ -10,14 +10,15 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+//   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const [idleTimer, setIdleTimer] = useState<NodeJS.Timeout | null>(null);
+//   const [idleTimer, setIdleTimer] = useState<NodeJS.Timeout | null>(null);
+const [idleTimer, setIdleTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    setLoading(true);
+//     setLoading(true);
 
     try {
       const response = await api.post("/auth/login", {
@@ -43,7 +44,7 @@ const Login = () => {
     } catch (err: any) {
       setError(err.response?.data?.message || "Network error, please try again.");
     } finally {
-      setLoading(false);
+//       setLoading(false);
     }
   };
 

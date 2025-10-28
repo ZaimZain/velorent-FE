@@ -4,7 +4,7 @@ import PageLayout from "../components/ui/PageLayout";
 const Profile = () => {
   return <>
     <PageLayout>
-      <PageCard title="Profile">
+      <PageCard title="Profile"><p>This is content body</p>
       </PageCard>
     </PageLayout>
   </>

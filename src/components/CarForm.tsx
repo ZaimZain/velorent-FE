@@ -1,8 +1,5 @@
-import { useState, useEffect } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { Car } from "../types/Car";
-import TextField from "../components/ui/TextField";
-import SelectDropdown from "../components/ui/SelectDropdown";
 import PrimaryButton from "../components/ui/PrimaryButton";
 
 interface CarFormProps {
@@ -41,7 +38,7 @@ export default function CarForm({ car, handleChange, handleSubmit }: CarFormProp
       </Form.Group>
 
       <br />
-      <PrimaryButton label="Add Car" type="submit" className="mt-3" />
+      <PrimaryButton label="Add Car" type="submit" />
     </Form>
   );
 }
