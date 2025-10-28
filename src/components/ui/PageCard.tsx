@@ -5,7 +5,7 @@ interface PageCardProps {
   children: React.ReactNode;
 }
 
-export default function PageCard ( { title, children } : PrimaryButtonProps ){
+export default function PageCard ( { title, children } : PageCardProps ){
   return <>
     <Card className="shadow-sm rounded-4">
       <Card.Header

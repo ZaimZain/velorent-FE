@@ -1,7 +1,4 @@
-import { useNavigate } from "react-router-dom";
 import api from"../services/api";
-
-
 
 export const logoutUser = async (navigate: Function) => {
   try {

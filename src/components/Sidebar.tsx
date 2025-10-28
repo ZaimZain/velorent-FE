@@ -1,4 +1,4 @@
-import { Nav, Button, Dropdown } from "react-bootstrap";
+import { Nav, Dropdown } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../utils/Auth";
 import VelorentLogo from "./VelorentLogo";
