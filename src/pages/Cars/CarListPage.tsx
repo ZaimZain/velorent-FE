@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, Button, Spinner, Row, Col } from 'react-bootstrap';
 import { getCars } from '../../services/carService';
 import { Car } from '../../types/Car';

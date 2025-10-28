@@ -1,4 +1,3 @@
-import React from "react";
 import { Nav, Button, Dropdown } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "../utils/Auth";
