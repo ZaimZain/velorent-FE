@@ -1,10 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from"../services/api";
+
+
 
 export const logoutUser = async (navigate: Function) => {
   try {
     // Send logout request to backend to invalidate the session
-    await axios.post("http://localhost:8080/api/auth/logout");
+    await api.post("/auth/logout");
 
     // Clear localStorage to remove user info
     localStorage.clear();
