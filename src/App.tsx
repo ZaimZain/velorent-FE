@@ -1,34 +1,38 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import DashboardPage from "./pages/Dashboard";
+import CarListPage from "./pages/Cars/CarListPage";
+import AddCarPage from "./pages/Cars/AddCarPage";
+import Profile from "./pages/Profile";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
-export default function App() {
-  const [count, setCount] = useState(0)
+export default function App () {
+  return <>
+    <div style={{ backgroundColor: "#F1F5F9", minHeight: "100vh", paddingTop: "2rem", paddingBottom: "2rem" }}>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/cars" element={
+          <ProtectedRoute>
+            <CarListPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/cars/add" element={
+          <ProtectedRoute>
+            <AddCarPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        } />
+      </Routes>
+    </div>
+  </>
+};
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
