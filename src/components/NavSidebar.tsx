@@ -4,7 +4,7 @@ import { logoutUser } from "../utils/Auth";
 import VelorentLogo from "./VelorentLogo";
 import { useUserDetails } from "../hooks/useUserDetails";
 
-const Sidebar = () => {
+const NavSidebar = () => {
   const navigate = useNavigate();
   const { username, role } = useUserDetails();
 
@@ -17,24 +17,36 @@ const Sidebar = () => {
       className="d-flex flex-column justify-content-between p-3 bg-white shadow-sm"
       style={{ width: "250px", height: "100vh", position: "fixed", top: 0, left: 0 }}
     >
-      <div>
-        <div className="mb-4">
+      {/* Top logo */}
+      <div className="p-3">
+        <div className="text-center mb-4">
+          {/* Placeholder for photo */}
+          <div
+            className="bg-light border rounded mb-2 mx-auto"
+            style={{ width: "100%", height: "80px" }}
+          ></div>
           <VelorentLogo fontSize="1.5rem" />
         </div>
+
 
         <Nav className="flex-column gap-2">
           <Nav.Link as={Link} to="/dashboard" className="fw-semibold text-dark">
             Dashboard
           </Nav.Link>
-
-          <Nav.Item className="fw-semibold text-dark">Car</Nav.Item>
-          <Nav className="flex-column ps-3">
-            <Nav.Link as={Link} to="/cars">Manage Cars</Nav.Link>
-            <Nav.Link as={Link} to="/cars/add">Add New Car</Nav.Link>
-          </Nav>
-
-          <Nav.Link as={Link} to="/profile" className="fw-semibold text-dark">
-            Profile
+          <Nav.Link as={Link} to="/car" className="fw-semibold text-dark">
+            Car Fleet
+          </Nav.Link>
+          <Nav.Link as={Link} to="/rental" className="fw-semibold text-dark">
+            Rental Status
+          </Nav.Link>
+          <Nav.Link as={Link} to="/customer" className="fw-semibold text-dark">
+            Customers
+          </Nav.Link>
+          <Nav.Link as={Link} to="/calendar" className="fw-semibold text-dark">
+            Calendar
+          </Nav.Link>
+          <Nav.Link as={Link} to="/notification" className="fw-semibold text-dark">
+            Notifications
           </Nav.Link>
         </Nav>
       </div>
@@ -55,6 +67,11 @@ const Sidebar = () => {
           <Dropdown.Menu>
             <Dropdown.ItemText className="text-muted">Role: {role}</Dropdown.ItemText>
             <Dropdown.Divider />
+            <Dropdown.Item className="text-danger fw-semibold">
+
+              View Marketplace
+            </Dropdown.Item>
+            <Dropdown.Divider />
             <Dropdown.Item onClick={handleLogout} className="text-danger fw-semibold">
               Logout
             </Dropdown.Item>
@@ -65,4 +82,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default NavSidebar;
