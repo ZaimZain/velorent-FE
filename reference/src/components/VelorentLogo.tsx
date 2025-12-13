@@ -1,4 +1,4 @@
-import logoImage from "figma:asset/1d5929251d486a23a0e0c4baa097ff17cda33da8.png";
+import logoImage from "figma:asset/VelorentLogo-nobg.png";
 
 export function VelorentLogo({ className = "" }: { className?: string }) {
   return (

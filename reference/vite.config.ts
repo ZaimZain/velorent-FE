@@ -17,7 +17,7 @@
         'next-themes@0.4.6': 'next-themes',
         'lucide-react@0.487.0': 'lucide-react',
         'input-otp@1.4.2': 'input-otp',
-        'figma:asset/1d5929251d486a23a0e0c4baa097ff17cda33da8.png': path.resolve(__dirname, './src/assets/1d5929251d486a23a0e0c4baa097ff17cda33da8.png'),
+        'figma:asset/VelorentLogo-nobg.png': path.resolve(__dirname, './src/assets/VelorentLogo-nobg.png'),
         'embla-carousel-react@8.6.0': 'embla-carousel-react',
         'cmdk@1.1.1': 'cmdk',
         'class-variance-authority@0.7.1': 'class-variance-authority',
