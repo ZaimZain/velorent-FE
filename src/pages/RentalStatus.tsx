@@ -1,10 +1,10 @@
 import PageCard from "../components/PageCard";
 import PageLayout from "../components/PageLayout";
 
-export default function Dashboard () {
+export default function RentalStatus () {
   return <>
     <PageLayout>
-      <PageCard title="Dashboard"><p>This is content body</p>
+      <PageCard title="RentalStatus"><p>This is content body</p>
       </PageCard>
     </PageLayout>
   </>
