@@ -1,10 +1,12 @@
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./utils/ProtectedRoute";
 import Login from "./pages/Login";
 import DashboardPage from "./pages/Dashboard";
-import CarListPage from "./pages/Cars/CarListPage";
-import AddCarPage from "./pages/Cars/AddCarPage";
-import Profile from "./pages/Profile";
-import ProtectedRoute from "./utils/ProtectedRoute";
+import CarFleetPage from "./pages/CarFleet";
+import RentalStatusPage from "./pages/RentalStatus";
+import CustomerPage from "./pages/Customer";
+import CalendarPage from "./pages/Calendar";
+import NotificationPage from "./pages/Notification";
 
 export default function App () {
   return <>
@@ -16,19 +18,29 @@ export default function App () {
             <DashboardPage />
           </ProtectedRoute>
         } />
-        <Route path="/cars" element={
+        <Route path="/car" element={
           <ProtectedRoute>
-            <CarListPage />
+            <CarFleetPage />
           </ProtectedRoute>
         } />
-        <Route path="/cars/add" element={
+        <Route path="/rental" element={
           <ProtectedRoute>
-            <AddCarPage />
+            <RentalStatusPage />
           </ProtectedRoute>
         } />
-        <Route path="/profile" element={
+        <Route path="/customer" element={
           <ProtectedRoute>
-            <Profile />
+            <CustomerPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/calendar" element={
+          <ProtectedRoute>
+            <CalendarPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/notification" element={
+          <ProtectedRoute>
+            <NotificationPage />
           </ProtectedRoute>
         } />
       </Routes>
