@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Sidebar } from "./components/ui/sidebar";
+// import { Sidebar } from "./components/ui/sidebar";
 import { VelorentLogo } from "./components/VelorentLogo";
 import { ThemeToggle } from "./components/ThemeToggle";
 import { Dashboard } from "./components/Dashboard";
 import { CarList } from "./components/CarList";
-import { AddCarForm } from "./components/AddCarForm";
+// import { AddCarForm } from "./components/AddCarForm";
 import { RentalStatus } from "./components/RentalStatus";
 import { CustomerManagement } from "./components/CustomerManagement";
 import { CalendarView } from "./components/CalendarView";
