@@ -4,8 +4,7 @@ import PageLayout from "../components/PageLayout";
 export default function Dashboard () {
   return <>
     <PageLayout>
-      <PageCard title="Dashboard"><p>This is content body</p>
-      </PageCard>
+
     </PageLayout>
   </>
 };

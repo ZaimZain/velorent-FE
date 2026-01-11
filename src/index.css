@@ -1,3 +1,2 @@
-Card.Header{
-background-color: "#1E293B", fontFamily: "Inter"
-}
+/* src/index.css */
+@import "tailwindcss";
