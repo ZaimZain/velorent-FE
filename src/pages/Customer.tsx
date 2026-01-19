@@ -6,6 +6,28 @@ export default function Customers () {
     <PageLayout>
       <PageCard title="Customers"><p>This is content body</p>
       </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
+      <PageCard title="Customers"><p>This is content body</p>
+      </PageCard>
     </PageLayout>
   </>
 };

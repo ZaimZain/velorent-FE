@@ -1,85 +1,132 @@
-import { Nav, Dropdown } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import { logoutUser } from "../utils/Auth";
-import VelorentLogo from "./VelorentLogo";
-import { useUserDetails } from "../hooks/useUserDetails";
+import { useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  Car,
+  ClipboardList,
+  Users,
+  CalendarDays,
+  Bell,
+  LogOut,
+  Store,
+} from "lucide-react";
 
-const NavSidebar = () => {
+import logoUrl from "../assets/VelorentLogo-nobg.png"; // <-- put the png here
+
+type NavItem = {
+  label: string;
+  path: string;
+  icon: React.ReactNode;
+};
+
+export default function NavSidebar() {
   const navigate = useNavigate();
-  const { username, role } = useUserDetails();
+  const location = useLocation();
 
-  const handleLogout = () => {
-    logoutUser(navigate);
-  };
+  const items: NavItem[] = useMemo(
+    () => [
+      { label: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={18} /> },
+      { label: "Car Fleet", path: "/car", icon: <Car size={18} /> },
+      { label: "Rental Status", path: "/rental", icon: <ClipboardList size={18} /> },
+      { label: "Customers", path: "/customer", icon: <Users size={18} /> },
+      { label: "Calendar", path: "/calendar", icon: <CalendarDays size={18} /> },
+      { label: "Notifications", path: "/notification", icon: <Bell size={18} /> },
+    ],
+    []
+  );
 
   return (
-    <div
-      className="d-flex flex-column justify-content-between p-3 bg-white shadow-sm"
-      style={{ width: "250px", height: "100vh", position: "fixed", top: 0, left: 0 }}
-    >
-      {/* Top logo */}
-      <div className="p-3">
-        <div className="text-center mb-4">
-          {/* Placeholder for photo */}
-          <div
-            className="bg-light border rounded mb-2 mx-auto"
-            style={{ width: "100%", height: "80px" }}
-          ></div>
-          <VelorentLogo fontSize="1.5rem" />
-        </div>
-
-
-        <Nav className="flex-column gap-2">
-          <Nav.Link as={Link} to="/dashboard" className="fw-semibold text-dark">
-            Dashboard
-          </Nav.Link>
-          <Nav.Link as={Link} to="/car" className="fw-semibold text-dark">
-            Car Fleet
-          </Nav.Link>
-          <Nav.Link as={Link} to="/rental" className="fw-semibold text-dark">
-            Rental Status
-          </Nav.Link>
-          <Nav.Link as={Link} to="/customer" className="fw-semibold text-dark">
-            Customers
-          </Nav.Link>
-          <Nav.Link as={Link} to="/calendar" className="fw-semibold text-dark">
-            Calendar
-          </Nav.Link>
-          <Nav.Link as={Link} to="/notification" className="fw-semibold text-dark">
-            Notifications
-          </Nav.Link>
-        </Nav>
+    <div className="h-full flex flex-col">
+      {/* Logo block */}
+      <div className="px-6 pt-8 pb-6 flex items-center justify-center">
+        <img
+          src={logoUrl}
+          alt="Velorent"
+          className="h-10 w-auto select-none"
+          draggable={false}
+        />
       </div>
 
-      <div>
-        <Dropdown align="end">
-          <Dropdown.Toggle
-            variant="light"
-            className="d-flex align-items-center gap-2 border-0 bg-transparent text-dark"
+      {/* Nav */}
+      <nav className="px-4 flex-1">
+        <ul className="space-y-1">
+          {items.map((item) => {
+            const active = location.pathname === item.path;
+
+            return (
+              <li key={item.path}>
+                <button
+                  type="button"
+                  onClick={() => navigate(item.path)}
+                  className={[
+                    "w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition",
+                    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring",
+                    active
+                      ? "bg-primary text-primary-foreground shadow-sm"
+                      : "text-sidebar-foreground hover:bg-sidebar-accent",
+                  ].join(" ")}
+                >
+                  <span className={active ? "opacity-95" : "opacity-80"}>{item.icon}</span>
+                  <span>{item.label}</span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* Divider */}
+        <div className="mt-6 border-t border-sidebar-border" />
+      </nav>
+
+      {/* Bottom actions */}
+      <div className="px-4 pb-5">
+        <button
+          type="button"
+          onClick={() => navigate("/marketplace")} // change route if needed
+          className="
+            w-full mt-4 flex items-center justify-between
+            px-4 py-2.5 rounded-lg text-sm font-semibold
+            border border-border bg-card text-foreground
+            hover:bg-muted transition
+            focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring
+          "
+        >
+          <span className="flex items-center gap-2">
+            <Store size={18} className="opacity-80" />
+            View Marketplace
+          </span>
+
+          <span
+            className="
+              text-[11px] font-semibold
+              px-2 py-0.5 rounded-full
+              bg-primary text-primary-foreground
+            "
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24">
-              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>{username}</span>
-          </Dropdown.Toggle>
+            Public
+          </span>
+        </button>
 
-          <Dropdown.Menu>
-            <Dropdown.ItemText className="text-muted">Role: {role}</Dropdown.ItemText>
-            <Dropdown.Divider />
-            <Dropdown.Item className="text-danger fw-semibold">
+        <div className="mt-4 border-t border-sidebar-border" />
 
-              View Marketplace
-            </Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item onClick={handleLogout} className="text-danger fw-semibold">
-              Logout
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+        <button
+          type="button"
+          onClick={() => {
+            // wire to your real logoutUser(navigate) if you want:
+            // logoutUser(navigate);
+            navigate("/");
+          }}
+          className="
+            w-full mt-3 flex items-center gap-2
+            px-4 py-2.5 rounded-lg text-sm font-semibold
+            text-destructive hover:bg-muted transition
+            focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring
+          "
+        >
+          <LogOut size={18} />
+          Logout
+        </button>
       </div>
     </div>
   );
-};
-
-export default NavSidebar;
+}
