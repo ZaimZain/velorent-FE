@@ -10,7 +10,7 @@ import NotificationPage from "./pages/Notification";
 
 export default function App () {
   return <>
-    <div style={{ backgroundColor: "#F1F5F9", minHeight: "100vh", paddingTop: "2rem", paddingBottom: "2rem" }}>
+    <div className="min-h-screen bg-slate-100">
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={

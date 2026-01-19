@@ -1,24 +1,48 @@
-import { Container, Row, Col } from "react-bootstrap";
-import NavSidebar from '../components/NavSidebar';
-import NavTopbar from '../components/NavTopbar';
+import NavSidebar from "./NavSidebar";
+import NavTopbar from "./NavTopbar";
 
 interface PageLayoutProps {
+  title?: string;
   children: React.ReactNode;
 }
 
-export default function PageLayout ({ children } : PageLayoutProps) {
-  return <>
-      <NavSidebar />
-      <NavTopbar />
-      <div style={{ backgroundColor: "#F1F5F9", minHeight: "100vh" }}>
-        <Container className="py-5">
-          <Row className="justify-content-center">
-            <Col xs={12} md={10} lg={8}>
-              {children}
-            </Col>
-          </Row>
-        </Container>
-      </div>
-  </>
-};
+export default function PageLayout({ title = "Dashboard", children }: PageLayoutProps) {
+  return (
+    <div
+      className="
+        min-h-screen grid
+        [grid-template-columns:260px_1fr]
+        [grid-template-rows:64px_1fr]
+        [grid-template-areas:'sidebar_topbar''sidebar_main']
+        bg-background text-foreground
+      "
+    >
+      <aside
+        className="
+          [grid-area:sidebar]
+          bg-sidebar text-sidebar-foreground
+          border-r border-sidebar-border
+          h-screen sticky top-0
+        "
+      >
+        <NavSidebar />
+      </aside>
 
+      <header
+        className="
+          [grid-area:topbar]
+          bg-card text-card-foreground
+          border-b border-border
+          h-16 sticky top-0 z-10
+        "
+      >
+        <NavTopbar title={title} />
+      </header>
+
+      <main className="[grid-area:main] overflow-auto">
+        {/* main content spacing similar to screenshot */}
+        <div className="px-6 py-6">{children}</div>
+      </main>
+    </div>
+  );
+}
