@@ -6,7 +6,7 @@ interface PageLayoutProps {
   children: React.ReactNode;
 }
 
-export default function PageLayout({ title = "Welcome to Velorent CMS", children }: PageLayoutProps) {
+export default function PageLayout({ title = "Welcome to Velorent CMS", icon, children }: PageLayoutProps) {
   return (
     <div
       className="
@@ -36,7 +36,7 @@ export default function PageLayout({ title = "Welcome to Velorent CMS", children
           h-16 sticky top-0 z-10
         "
       >
-        <NavTopbar title={title} />
+        <NavTopbar title={title} icon={icon} />
       </header>
 
       <main className="[grid-area:main] overflow-auto">

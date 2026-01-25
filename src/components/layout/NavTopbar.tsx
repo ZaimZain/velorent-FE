@@ -1,16 +1,18 @@
-import { ExternalLink, Moon, Store, LayoutDashboard } from "lucide-react";
+import { ExternalLink, Moon, Store } from "lucide-react";
 
 interface NavTopbarProps {
   title: string;
+  icon?: React.ReactNode;
 }
 
-export default function NavTopbar({ title }: NavTopbarProps) {
+export default function NavTopbar({ title, icon }: NavTopbarProps) {
   return (
     <div className="h-16 px-6 flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="text-foreground/80">
-          <LayoutDashboard size={18} />
-        </div>
+        {icon ? (
+          <div className="text-foreground/80">{icon}</div>
+        ) : null}
+
         <div className="font-semibold text-xl">{title}</div>
       </div>
 
