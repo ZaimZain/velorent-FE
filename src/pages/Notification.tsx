@@ -3,7 +3,7 @@ import PageLayout from "../components/layout/PageLayout";
 
 export default function Notifications () {
   return <>
-    <PageLayout>
+    <PageLayout title="Notifications">
       <PageCard title="Notifications"><p>This is content body</p>
       </PageCard>
     </PageLayout>

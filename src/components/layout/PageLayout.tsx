@@ -6,7 +6,7 @@ interface PageLayoutProps {
   children: React.ReactNode;
 }
 
-export default function PageLayout({ title = "Dashboard", children }: PageLayoutProps) {
+export default function PageLayout({ title = "Welcome to Velorent CMS", children }: PageLayoutProps) {
   return (
     <div
       className="

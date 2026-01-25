@@ -11,7 +11,7 @@ export default function NavTopbar({ title }: NavTopbarProps) {
         <div className="text-foreground/80">
           <LayoutDashboard size={18} />
         </div>
-        <div className="font-semibold">{title}</div>
+        <div className="font-semibold text-xl">{title}</div>
       </div>
 
       <div className="flex items-center gap-3">

@@ -3,7 +3,7 @@ import PageLayout from "../components/layout/PageLayout";
 
 export default function Calendar () {
   return <>
-    <PageLayout>
+    <PageLayout title="Calendar">
       <PageCard title="Calendar"><p>This is content body</p>
       </PageCard>
     </PageLayout>

@@ -1,8 +1,14 @@
 export interface Car {
-  id?: string;
-  brand: string;
+  id: number;
+  make: string;
   model: string;
   year: number;
-  pricePerDay: number;
-  image?: string;
+  license_plate: string;
+  status: "AVAILABLE" | "RENTED" | "MAINTENANCE";
+  color: string;
+  fuel_type: "Gasoline" | "Diesel" | "Hybrid" | "Electric";
+  daily_rate: number;
+  image_url?: string;
+  created_at: string;
+  updated_at: string;
 }
