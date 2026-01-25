@@ -11,7 +11,7 @@ import {
   Store,
 } from "lucide-react";
 
-import logoUrl from "../assets/VelorentLogo-nobg.png"; // <-- put the png here
+import logoUrl from "../../assets/VelorentLogo-nobg.png"; // <-- put the png here
 
 type NavItem = {
   label: string;

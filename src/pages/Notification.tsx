@@ -1,5 +1,5 @@
-import PageCard from "../components/PageCard";
-import PageLayout from "../components/PageLayout";
+import PageCard from "../components/ui/SectionCard";
+import PageLayout from "../components/layout/PageLayout";
 
 export default function Notifications () {
   return <>
