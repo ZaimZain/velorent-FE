@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 import { logoutUser } from "../utils/Auth";
-import VelorentLogo from "../components/VelorentLogo";
+import VelorentLogo from "../components/ui/VelorentLogo";
 
 const Login = () => {
   const [username, setUsername] = useState("");
