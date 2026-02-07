@@ -1,7 +1,7 @@
 [
     {
       "id": 1,
-      "name": "Ahmad Rizal bin Abdullah",
+      "fullName": "Ahmad Rizal bin Abdullah",
       "email": "ahmad.rizal@email.com",
       "phone": "+60 12-345 6789",
       "address": "No. 15, Jalan Merdeka, 50100 Kuala Lumpur",
@@ -19,7 +19,7 @@
     },
     {
       "id": 2,
-      "name": "Siti Nurhaliza binti Hassan",
+      "fullName": "Siti Nurhaliza binti Hassan",
       "email": "siti.nurhaliza@email.com",
       "phone": "+60 13-987 6543",
       "address": "No. 28, Jalan Bukit Bintang, 55100 Kuala Lumpur",
@@ -37,7 +37,7 @@
     },
     {
       "id": 3,
-      "name": "Mohd Faizal bin Omar",
+      "fullName": "Mohd Faizal bin Omar",
       "email": "mohd.faizal@email.com",
       "phone": "+60 17-456 7890",
       "address": "No. 42, Jalan Sultan, 80000 Johor Bahru",
@@ -51,7 +51,7 @@
     },
     {
       "id": 4,
-      "name": "Nurul Aisyah binti Ibrahim",
+      "fullName": "Nurul Aisyah binti Ibrahim",
       "email": "nurul.aisyah@email.com",
       "phone": "+60 19-321 9876",
       "address": "No. 7, Jalan Alor, 10450 Georgetown, Pulau Pinang",
@@ -65,7 +65,7 @@
     },
     {
       "id": 5,
-      "name": "Azman bin Hashim",
+      "fullName": "Azman bin Hashim",
       "email": "azman.hashim@email.com",
       "phone": "+60 16-654 3210",
       "address": "No. 88, Jalan Tun Razak, 50400 Kuala Lumpur",
@@ -76,5 +76,39 @@
       "status": "inactive",
       "notes": "Tidak menyewa lebih 6 bulan",
       "currentRental": null
-    }
+    },
+  {
+    "id": 6,
+    "fullName": "Ahmad Rizal bin Abdullah",
+    "email": "ahmad.rizal@email.com",
+    "phone": "+60 12-345 6789",
+    "address": "No. 15, Jalan Merdeka, 50100 Kuala Lumpur",
+    "status": "active",
+    "totalRentals": 8,
+    "totalSpent": 9828,
+    "currentRental": {
+      "carName": "Toyota Camry 2023",
+      "startDate": "2024-09-20",
+      "endDate": "2024-10-01"
+    },
+    "memberSince": "2024-01-15",
+    "note": "Pelanggan utama, sentiasa membayar tepat pada masanya"
+  },
+  {
+    "id": 7,
+    "fullName": "Siti Nurhaliza binti Hassan",
+    "email": "siti.nurhaliza@email.com",
+    "phone": "+60 13-987 6543",
+    "address": "No. 28, Jalan Bukit Bintang, 55100 Kuala Lumpur",
+    "status": "warning",
+    "totalRentals": 3,
+    "totalSpent": 3738,
+    "currentRental": {
+      "carName": "Ford Mustang 2023",
+      "startDate": "2024-09-25",
+      "endDate": "2024-09-28"
+    },
+    "memberSince": "2024-03-22",
+    "note": "Pembayaran lewat pada sewa terakhir"
+  }
   ]

@@ -41,7 +41,7 @@ export default function CarFleet() {
   }, []);
 
   // Search + filter logic
-  const filteredCars = useMemo(() => {
+  const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
 
     return cars.filter((c) => {
@@ -111,7 +111,7 @@ export default function CarFleet() {
       {/* Cars grid */}
       {!loading && !error ? (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-          {filteredCars.map((car) => (
+          {filtered.map((car) => (
             <CarCard
               key={car.id}
               car={car}
@@ -120,7 +120,7 @@ export default function CarFleet() {
             />
           ))}
 
-          {filteredCars.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className="text-sm text-muted-foreground">
               No cars found. Try another search or filter.
             </div>
