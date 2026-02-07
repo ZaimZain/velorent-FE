@@ -3,7 +3,7 @@ import PageLayout from "../components/layout/PageLayout";
 import PageHeader from "../components/ui/PageHeader";
 import CustomerCard from "../components/ui/CustomerCard";
 import { CustomerJson } from "../types/CustomerJson";
-import { Search, Plus, Users } from "lucide-react";
+import { Users, Filter, Search, Plus } from "lucide-react";
 
 type StatusFilter =  "active" | "warning" | "inactive";
 
@@ -41,38 +41,22 @@ export default function Customers() {
   }, []);
 
   // Search + filter logic
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return customers;
+const filtered = useMemo(() => {
+  const q = query.trim().toLowerCase();
 
-    return customers.filter((c) => {
-      return (
-        c.fullName.toLowerCase().includes(q) ||
-        c.email.toLowerCase().includes(q) ||
-        c.phone.toLowerCase().includes(q)
-      );
-    });
-  }, [customers, query, statusFilter]);
+  return customers.filter((c) => {
+    const matchesQuery =
+      !q ||
+      c.fullName.toLowerCase().includes(q) ||
+      c.email.toLowerCase().includes(q) ||
+      c.phone.toLowerCase().includes(q) ||
+      c.address.toLowerCase().includes(q);
 
-//   // Search + filter logic
-//   const filtered = useMemo(() => {
-//     const q = query.trim().toLowerCase();
-//
-//     return cars.filter((c) => {
-//       const matchesQuery =
-//         !q ||
-//         `${c.make} ${c.model}`.toLowerCase().includes(q) ||
-//         String(c.year).includes(q) ||
-//         c.licensePlate.toLowerCase().includes(q);
-//
-//       const matchesStatus = statusFilter === "all" ? true : c.status === statusFilter;
-//
-//       return matchesQuery && matchesStatus;
-//     });
-//   }, [cars, query, statusFilter]);
-
-
-
+    const matchesStatus =
+      statusFilter === "all" ? true : c.status === statusFilter;
+    return matchesQuery && matchesStatus;
+  });
+}, [customers, query, statusFilter]);
 
   return (
     <PageLayout title="Customers" icon={<Users size={18} />}>
@@ -91,6 +75,23 @@ export default function Customers() {
                 placeholder="Search by name, email, or phone number..."
               />
             </div>
+
+
+            {/* Status filter */}
+            <div className="flex items-center gap-2">
+              <Filter size={16} className="text-muted-foreground" />
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value as StatusFilter)}
+                className="rounded-lg border border-border bg-card px-3 py-2 text-sm focus:ring-2 focus:ring-ring focus:outline-none"
+              >
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="warning">Warning</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+
 
             {/* Add button */}
             <button
