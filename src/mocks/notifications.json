@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Pembayaran Lewat",
+    "message": "Pembayaran Siti Nurhaliza untuk sewa Ford Mustang lewat 2 hari",
+    "severity": "high",
+    "tags": ["Siti Nurhaliza", "Ford Mustang 2023", "RM 819"],
+    "created_at": "2024-09-20T10:00:00",
+    "read": false
+  },
+  {
+    "id": 2,
+    "title": "Sewa Akan Tamat",
+    "message": "Sewa Toyota Camry Ahmad Rizal akan tamat dalam 2 hari",
+    "severity": "medium",
+    "tags": ["Ahmad Rizal", "Toyota Camry 2023"],
+    "created_at": "2024-09-20T08:00:00",
+    "read": false
+  },
+  {
+    "id": 3,
+    "title": "Penyelenggaraan Diperlukan",
+    "message": "BMW X3 2023 perlu penyelenggaraan berjadual",
+    "severity": "medium",
+    "tags": ["BMW X3 2023"],
+    "created_at": "2024-09-18T08:00:00",
+    "read": true
+  }
+]

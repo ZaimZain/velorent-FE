@@ -1,0 +1,8 @@
+{
+  "paymentReminders": true,
+  "rentalReminders": true,
+  "maintenanceAlerts": true,
+  "newBookings": true,
+  "emailNotifications": true,
+  "smsNotifications": false
+}

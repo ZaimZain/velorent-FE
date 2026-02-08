@@ -1,0 +1,114 @@
+[
+    {
+      "id": 1,
+      "fullName": "Ahmad Rizal bin Abdullah",
+      "email": "ahmad.rizal@email.com",
+      "phone": "+60 12-345 6789",
+      "address": "No. 15, Jalan Merdeka, 50100 Kuala Lumpur",
+      "driverLicense": "D1234567",
+      "registrationDate": "2024-01-15",
+      "totalRentals": 8,
+      "totalSpent": 9828,
+      "status": "active",
+      "notes": "Pelanggan utama, sentiasa membayar tepat pada masanya",
+      "currentRental": {
+        "car": "Toyota Camry 2023",
+        "startDate": "2024-09-20",
+        "endDate": "2024-10-01"
+      }
+    },
+    {
+      "id": 2,
+      "fullName": "Siti Nurhaliza binti Hassan",
+      "email": "siti.nurhaliza@email.com",
+      "phone": "+60 13-987 6543",
+      "address": "No. 28, Jalan Bukit Bintang, 55100 Kuala Lumpur",
+      "driverLicense": "D9876543",
+      "registrationDate": "2024-03-22",
+      "totalRentals": 3,
+      "totalSpent": 3738,
+      "status": "warning",
+      "notes": "Pembayaran lewat pada sewa terakhir",
+      "currentRental": {
+        "car": "Ford Mustang 2023",
+        "startDate": "2024-09-25",
+        "endDate": "2024-09-28"
+      }
+    },
+    {
+      "id": 3,
+      "fullName": "Mohd Faizal bin Omar",
+      "email": "mohd.faizal@email.com",
+      "phone": "+60 17-456 7890",
+      "address": "No. 42, Jalan Sultan, 80000 Johor Bahru",
+      "driverLicense": "D4567891",
+      "registrationDate": "2023-11-08",
+      "totalRentals": 12,
+      "totalSpent": 18984,
+      "status": "active",
+      "notes": "Pelanggan VIP, kerap menyewa kenderaan mewah",
+      "currentRental": null
+    },
+    {
+      "id": 4,
+      "fullName": "Nurul Aisyah binti Ibrahim",
+      "email": "nurul.aisyah@email.com",
+      "phone": "+60 19-321 9876",
+      "address": "No. 7, Jalan Alor, 10450 Georgetown, Pulau Pinang",
+      "driverLicense": "D3219876",
+      "registrationDate": "2024-06-12",
+      "totalRentals": 1,
+      "totalSpent": 1176,
+      "status": "active",
+      "notes": "Pelanggan baru, sewa pertama berjalan lancar",
+      "currentRental": null
+    },
+    {
+      "id": 5,
+      "fullName": "Azman bin Hashim",
+      "email": "azman.hashim@email.com",
+      "phone": "+60 16-654 3210",
+      "address": "No. 88, Jalan Tun Razak, 50400 Kuala Lumpur",
+      "driverLicense": "D6543210",
+      "registrationDate": "2023-08-19",
+      "totalRentals": 6,
+      "totalSpent": 6552,
+      "status": "inactive",
+      "notes": "Tidak menyewa lebih 6 bulan",
+      "currentRental": null
+    },
+  {
+    "id": 6,
+    "fullName": "Ahmad Rizal bin Abdullah",
+    "email": "ahmad.rizal@email.com",
+    "phone": "+60 12-345 6789",
+    "address": "No. 15, Jalan Merdeka, 50100 Kuala Lumpur",
+    "status": "active",
+    "totalRentals": 8,
+    "totalSpent": 9828,
+    "currentRental": {
+      "carName": "Toyota Camry 2023",
+      "startDate": "2024-09-20",
+      "endDate": "2024-10-01"
+    },
+    "memberSince": "2024-01-15",
+    "note": "Pelanggan utama, sentiasa membayar tepat pada masanya"
+  },
+  {
+    "id": 7,
+    "fullName": "Siti Nurhaliza binti Hassan",
+    "email": "siti.nurhaliza@email.com",
+    "phone": "+60 13-987 6543",
+    "address": "No. 28, Jalan Bukit Bintang, 55100 Kuala Lumpur",
+    "status": "warning",
+    "totalRentals": 3,
+    "totalSpent": 3738,
+    "currentRental": {
+      "carName": "Ford Mustang 2023",
+      "startDate": "2024-09-25",
+      "endDate": "2024-09-28"
+    },
+    "memberSince": "2024-03-22",
+    "note": "Pembayaran lewat pada sewa terakhir"
+  }
+  ]
