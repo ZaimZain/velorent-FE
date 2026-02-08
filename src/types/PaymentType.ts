@@ -1,4 +1,4 @@
-export interface Payment {
+export interface PaymentJson {
   id: number;
   rental_id: number;
   amount: number;
