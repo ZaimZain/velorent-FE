@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import PageLayout from "../components/layout/PageLayout";
-import PageHeader from "../components/ui/PageHeader";
+import PageHeader from "../components/layout/PageHeader";
 import AvailabilityCalendar from "../components/calendars/AvailabilityCalendar";
 import CalendarLegend from "../components/calendars/CalendarLegend";
 import RentalMiniRow from "../components/calendars/RentalMiniRow";

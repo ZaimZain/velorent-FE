@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import PageLayout from "../components/layout/PageLayout";
-import PageHeader from "../components/ui/PageHeader";
+import PageHeader from "../components/layout/PageHeader";
 import CustomerCard from "../components/customers/CustomerCard";
 import { CustomerJson } from "../types/CustomerJson";
 import { Users, Filter, Search, Plus } from "lucide-react";
