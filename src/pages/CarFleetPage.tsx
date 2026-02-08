@@ -7,7 +7,7 @@ import { Car as CarIcon, Filter, Search, Plus } from "lucide-react";
 
 type StatusFilter = "all" | "available" | "rented" | "maintenance";
 
-export default function CarFleet() {
+export default function CarFleetPage() {
   const [cars, setCars] = useState<CarFleetJson[]>([]);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
