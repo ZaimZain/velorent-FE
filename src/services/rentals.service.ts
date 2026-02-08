@@ -1,28 +1,20 @@
 // src/services/rentals.service.ts
 import api from "./api";
+import { USE_API } from "../services/dataSource";
+import rentalsMock from "../mocks/rentals.json";
 import { Rental } from "../types/Rental";
 
-// ✅ Your mock JSON should live here
-// Example path: src/mocks/rentals.json
-import rentalsMock from "../mocks/rentals.json";
-
 /**
- * Toggle your data source here.
- * - false = use mock JSON (fast UI development)
- * - true  = use backend API (DB-ready)
- */
-const USE_API = false;
-
-/**
- * If your backend returns snake_case fields but frontend uses the Rental interface,
- * normalize here. If your API already returns exact fields, you can simplify/remove.
+ * Normalize rental fields so UI always receives the Rental interface shape.
+ * Supports:
+ * - Mock camelCase: carId, customerId, startDate, endDate, pickupLocation...
+ * - API snake_case: car_id, customer_id, start_date, end_date, pickup_location...
  */
 function normalizeRental(raw: any): Rental {
-  // Supports both snake_case and camelCase inputs
   return {
-    id: raw.id,
-    car_id: raw.car_id ?? raw.carId,
-    customer_id: raw.customer_id ?? raw.customerId,
+    id: Number(raw.id),
+    car_id: Number(raw.car_id ?? raw.carId),
+    customer_id: Number(raw.customer_id ?? raw.customerId),
 
     start_date: raw.start_date ?? raw.startDate,
     end_date: raw.end_date ?? raw.endDate,
@@ -30,12 +22,12 @@ function normalizeRental(raw: any): Rental {
     pickup_location: raw.pickup_location ?? raw.pickupLocation ?? "",
     dropoff_location: raw.dropoff_location ?? raw.dropoffLocation ?? "",
 
-    total_amount: raw.total_amount ?? raw.totalAmount ?? 0,
-    paid_amount: raw.paid_amount ?? raw.paidAmount ?? 0,
+    total_amount: Number(raw.total_amount ?? raw.totalAmount ?? 0),
+    paid_amount: Number(raw.paid_amount ?? raw.paidAmount ?? 0),
 
-    // rental_status & payment_status are what we want moving forward
-    rental_status: raw.rental_status ?? raw.status ?? "UPCOMING",
-    payment_status: raw.payment_status ?? raw.paymentStatus ?? "UNPAID",
+    // Prefer explicit rental_status/payment_status. Fall back to older "status"/"paymentStatus".
+    rental_status: (raw.rental_status ?? raw.status ?? "UPCOMING") as Rental["rental_status"],
+    payment_status: (raw.payment_status ?? raw.paymentStatus ?? "UNPAID") as Rental["payment_status"],
 
     created_at: raw.created_at ?? raw.createdAt ?? new Date().toISOString(),
     updated_at: raw.updated_at ?? raw.updatedAt ?? new Date().toISOString(),
@@ -47,13 +39,11 @@ function normalizeRental(raw: any): Rental {
  */
 export async function getRentals(): Promise<Rental[]> {
   if (USE_API) {
-    // Backend endpoint (adjust if your server uses /API uppercase)
-    // e.g. http://localhost:8080/api/rentals
+    // expects GET http://localhost:8080/api/rentals
     const res = await api.get<any[]>("/rentals");
     return res.data.map(normalizeRental);
   }
 
-  // Mock JSON fallback
   return (rentalsMock as any[]).map(normalizeRental);
 }
 
@@ -66,7 +56,7 @@ export async function getRentalById(id: number): Promise<Rental> {
     return normalizeRental(res.data);
   }
 
-  const found = (rentalsMock as any[]).find((r) => r.id === id);
+  const found = (rentalsMock as any[]).find((r) => Number(r.id) === id);
   if (!found) throw new Error(`Rental id=${id} not found in rentals mock`);
   return normalizeRental(found);
 }
@@ -85,14 +75,12 @@ export async function createRental(payload: Partial<Rental>): Promise<Rental> {
   const nextId =
     Math.max(0, ...(rentalsMock as any[]).map((r) => Number(r.id) || 0)) + 1;
 
-  const created = normalizeRental({
+  return normalizeRental({
     ...payload,
     id: nextId,
     created_at: now,
     updated_at: now,
   });
-
-  return created;
 }
 
 /**
@@ -105,16 +93,14 @@ export async function updateRental(id: number, payload: Partial<Rental>): Promis
   }
 
   // Mock mode: simulate update
-  const existing = (rentalsMock as any[]).find((r) => r.id === id);
+  const existing = (rentalsMock as any[]).find((r) => Number(r.id) === id);
   if (!existing) throw new Error(`Rental id=${id} not found in rentals mock`);
 
-  const updated = normalizeRental({
+  return normalizeRental({
     ...existing,
     ...payload,
     updated_at: new Date().toISOString(),
   });
-
-  return updated;
 }
 
 /**
@@ -140,6 +126,5 @@ export async function sendPaymentReminder(id: number): Promise<{ success: boolea
     return res.data;
   }
 
-  // Mock mode: always succeed
   return { success: true };
 }
