@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import PageLayout from "../components/layout/PageLayout";
-import PageHeader from "../components/ui/PageHeader";
+import PageHeader from "../components/layout/PageHeader";
 import RentalRowCard from "../components/rentals/RentalCard";
 import { Rental, RentalStatus } from "../types/Rental";
 import { ClipboardList, Search, Filter, Plus } from "lucide-react";

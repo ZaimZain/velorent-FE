@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import PageLayout from "../components/layout/PageLayout";
-import PageHeader from "../components/ui/PageHeader";
+import PageHeader from "../components/layout/PageHeader";
 import NotificationItem from "../components/notifications/NotificationItem";
 import NotificationSettingsCard from "../components/notifications/NotificationSettingCard";
 import QuickActionsCard from "../components/notifications/QuickActionCard";
