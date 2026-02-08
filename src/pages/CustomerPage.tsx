@@ -7,7 +7,7 @@ import { Users, Filter, Search, Plus } from "lucide-react";
 
 type StatusFilter =  "active" | "warning" | "inactive";
 
-export default function Customers() {
+export default function CustomerPage() {
   const [customers, setCustomers] = useState<CustomerJson[]>([]);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");

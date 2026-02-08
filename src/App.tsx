@@ -2,11 +2,11 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Login from "./pages/Login";
 import DashboardPage from "./pages/Dashboard";
-import CarFleetPage from "./pages/CarFleet";
-import RentalStatusPage from "./pages/RentalStatus";
-import CustomerPage from "./pages/Customer";
-import CalendarPage from "./pages/Calendar";
-import NotificationPage from "./pages/Notification";
+import CarFleetPage from "./pages/CarFleetPage";
+import RentalStatusPage from "./pages/RentalStatusPage";
+import CustomerPage from "./pages/CustomerPage";
+import CalendarPage from "./pages/CalendarPage";
+import NotificationPage from "./pages/NotificationPage";
 
 export default function App () {
   return <>
