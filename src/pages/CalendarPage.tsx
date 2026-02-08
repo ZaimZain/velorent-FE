@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import PageLayout from "../components/layout/PageLayout";
 import PageHeader from "../components/ui/PageHeader";
-import AvailabilityCalendar from "../components/calendar/AvailabilityCalendar";
-import CalendarLegend from "../components/calendar/CalendarLegend";
-import RentalMiniRow from "../components/calendar/RentalMiniRow";
+import AvailabilityCalendar from "../components/calendars/AvailabilityCalendar";
+import CalendarLegend from "../components/calendars/CalendarLegend";
+import RentalMiniRow from "../components/calendars/RentalMiniRow";
 
 import { CalendarDays } from "lucide-react";
 import { getRentals } from "../services/rentals.service";
