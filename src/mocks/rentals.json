@@ -1,90 +1,32 @@
 [
-    {
-      "id": 1,
-      "customer": {
-        "name": "Ahmad Rizal bin Abdullah",
-        "email": "ahmad.rizal@email.com",
-        "phone": "+60 12-345 6789"
-      },
-      "car": {
-        "make": "Toyota",
-        "model": "Camry",
-        "year": 2023,
-        "licensePlate": "ABC-123"
-      },
-      "startDate": "2024-09-20",
-      "endDate": "2024-10-01",
-      "dailyRate": 189,
-      "totalAmount": 2079,
-      "paidAmount": 1039.50,
-      "status": "active",
-      "pickupLocation": "Pejabat Pusat Bandar",
-      "paymentStatus": "partial"
-    },
-    {
-      "id": 2,
-      "customer": {
-        "name": "Siti Nurhaliza binti Hassan",
-        "email": "siti.nurhaliza@email.com",
-        "phone": "+60 13-987 6543"
-      },
-      "car": {
-        "make": "Ford",
-        "model": "Mustang",
-        "year": 2023,
-        "licensePlate": "MNO-345"
-      },
-      "startDate": "2024-09-25",
-      "endDate": "2024-09-28",
-      "dailyRate": 273,
-      "totalAmount": 819,
-      "paidAmount": 0,
-      "status": "active",
-      "pickupLocation": "Terminal Lapangan Terbang",
-      "paymentStatus": "overdue"
-    },
-    {
-      "id": 3,
-      "customer": {
-        "name": "Mohd Faizal bin Omar",
-        "email": "mohd.faizal@email.com",
-        "phone": "+60 17-456 7890"
-      },
-      "car": {
-        "make": "BMW",
-        "model": "X3",
-        "year": 2023,
-        "licensePlate": "GHI-789"
-      },
-      "startDate": "2024-09-15",
-      "endDate": "2024-09-22",
-      "dailyRate": 315,
-      "totalAmount": 2205,
-      "paidAmount": 2205,
-      "status": "completed",
-      "pickupLocation": "Pejabat Pusat Bandar",
-      "paymentStatus": "paid"
-    },
-    {
-      "id": 4,
-      "customer": {
-        "name": "Nurul Aisyah binti Ibrahim",
-        "email": "nurul.aisyah@email.com",
-        "phone": "+60 19-321 9876"
-      },
-      "car": {
-        "make": "Tesla",
-        "model": "Model 3",
-        "year": 2023,
-        "licensePlate": "PQR-678"
-      },
-      "startDate": "2024-10-01",
-      "endDate": "2024-10-05",
-      "dailyRate": 294,
-      "totalAmount": 1176,
-      "paidAmount": 1176,
-      "status": "upcoming",
-      "pickupLocation": "Parking Pusat Membeli-belah",
-      "paymentStatus": "paid"
-    }
-  ]
+  {
+    "id": 101,
+    "car_id": 1,
+    "customer_id": 1,
+    "start_date": "2024-09-20",
+    "end_date": "2024-10-01",
+    "pickup_location": "Pejabat Pusat Bandar",
+    "dropoff_location": "Pejabat Pusat Bandar",
+    "total_amount": 2079.00,
+    "paid_amount": 1039.50,
+    "rental_status": "ACTIVE",
+    "payment_status": "PARTIAL",
+    "created_at": "2024-09-18T10:15:00",
+    "updated_at": "2024-09-22T09:30:00"
+  },
+  {
+    "id": 102,
+    "car_id": 2,
+    "customer_id": 2,
+    "start_date": "2024-09-25",
+    "end_date": "2024-09-28",
+    "pickup_location": "Terminal Lapangan Terbang",
+    "dropoff_location": "Terminal Lapangan Terbang",
+    "total_amount": 819.00,
+    "paid_amount": 0.00,
+    "rental_status": "ACTIVE",
+    "payment_status": "UNPAID",
+    "created_at": "2024-09-23T08:00:00",
+    "updated_at": "2024-09-28T18:00:00"
+  }
+]
