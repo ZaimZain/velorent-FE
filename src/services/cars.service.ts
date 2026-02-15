@@ -1,48 +1,26 @@
+// src/services/cars.service.ts
 import api from "./api";
-import { USE_API } from "../services/dataSource";
+import { USE_API } from "./dataSource";
 import carsMock from "../mocks/cars.json";
-import { Car } from "../types/Car";
+import { CarFleetJson } from "../types/CarFleetType";
 
-/**
- * Normalize car fields so your UI always gets the Car interface shape.
- * Supports:
- * - JSON camelCase: licensePlate, fuelType, dailyRate, image
- * - API snake_case: license_plate, fuel_type, daily_rate, image_url
- */
-function normalizeCar(raw: any): Car {
-  const statusRaw = raw.status ?? raw.rental_status ?? "AVAILABLE";
+export async function getCars(): Promise<CarFleetJson[]> {
+  if (USE_API) {
+    // expects GET http://localhost:8080/api/cars (based on your api.ts baseURL)
+    const res = await api.get<CarFleetJson[]>("/cars");
+    return res.data;
+  }
 
-  return {
-    id: Number(raw.id),
-    make: raw.make,
-    model: raw.model,
-    year: Number(raw.year),
-    license_plate: raw.license_plate ?? raw.licensePlate,
-    status: String(statusRaw).toUpperCase() as Car["status"],
-    color: raw.color,
-    fuel_type: raw.fuel_type ?? raw.fuelType,
-    daily_rate: Number(raw.daily_rate ?? raw.dailyRate ?? 0),
-    image_url: raw.image_url ?? raw.imageUrl ?? raw.image,
-    created_at: raw.created_at ?? raw.createdAt ?? new Date().toISOString(),
-    updated_at: raw.updated_at ?? raw.updatedAt ?? new Date().toISOString(),
-  };
+  return carsMock as CarFleetJson[];
 }
 
-export async function getCars(): Promise<Car[]> {
+export async function getCarById(id: number): Promise<CarFleetJson> {
   if (USE_API) {
-    // expects GET http://localhost:8080/api/cars
-    const res = await api.get<any[]>("/cars");
-    return res.data.map(normalizeCar);
+    const res = await api.get<CarFleetJson>(`/cars/${id}`);
+    return res.data;
   }
-  return (carsMock as any[]).map(normalizeCar);
-}
 
-export async function getCarById(id: number): Promise<Car> {
-  if (USE_API) {
-    const res = await api.get<any>(`/cars/${id}`);
-    return normalizeCar(res.data);
-  }
-  const found = (carsMock as any[]).find((c) => Number(c.id) === id);
+  const found = (carsMock as CarFleetJson[]).find((c) => c.id === id);
   if (!found) throw new Error(`Car id=${id} not found in cars mock`);
-  return normalizeCar(found);
+  return found;
 }

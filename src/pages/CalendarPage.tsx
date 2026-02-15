@@ -9,19 +9,19 @@ import { CalendarDays } from "lucide-react";
 import { getRentals } from "../services/rentals.service";
 
 // If you already have real types, use them
-import { Rental } from "../types/Rental";
+import { RentalType } from "../types/RentalType";
 import carsMock from "../mocks/cars.json";
 import customersMock from "../mocks/customers.json";
 
 type Customer = { id: number; fullName: string };
 type Car = { id: number; make: string; model: string; year: number };
 
-type JoinedRental = Rental & {
+type JoinedRental = RentalType & {
   customerName: string;
   carName: string;
 };
 
-function joinRentals(rentals: Rental[], cars: Car[], customers: Customer[]): JoinedRental[] {
+function joinRentals(rentals: RentalType[], cars: Car[], customers: Customer[]): JoinedRental[] {
   const carById = new Map<number, Car>(cars.map((c) => [c.id, c]));
   const customerById = new Map<number, Customer>(customers.map((c) => [c.id, c]));
 
@@ -41,7 +41,7 @@ function joinRentals(rentals: Rental[], cars: Car[], customers: Customer[]): Joi
 }
 
 export default function CalendarPage() {
-  const [rentals, setRentals] = useState<Rental[]>([]);
+  const [rentals, setRentals] = useState<RentalType[]>([]);
   const [loading, setLoading] = useState(true);
 
   // Calendar state
