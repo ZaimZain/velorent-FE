@@ -2,19 +2,32 @@ import { useEffect, useMemo, useState } from "react";
 import PageLayout from "../components/layout/PageLayout";
 import PageHeader from "../components/layout/PageHeader";
 import CustomerCard from "../components/customers/CustomerCard";
-import { CustomerJson } from "../types/CustomerJson";
+
+import { CustomerType, CustomerStatus } from "../types/CustomerType";
+import { RentalType } from "../types/RentalType";
+import { CarType } from "../types/CarType";
+import { CustomerVM } from "../types/CustomerVM";
+
+import { getCustomers } from "../services/customers.service";
+import { getRentals } from "../services/rentals.service";
+import { getCars } from "../services/cars.service";
+
 import { Users, Filter, Search, Plus } from "lucide-react";
 
-type StatusFilter =  "active" | "warning" | "inactive";
+type StatusFilter = "all" | CustomerStatus;
 
 export default function CustomerPage() {
-  const [customers, setCustomers] = useState<CustomerJson[]>([]);
+  const [customers, setCustomers] = useState<CustomerType[]>([]);
+  const [rentals, setRentals] = useState<RentalType[]>([]);
+  const [cars, setCars] = useState<CarType[]>([]);
+
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load from JSON (mock). Later you can swap this to your centralized service.
+  // ✅ Load via services (USE_API toggle lives inside services)
   useEffect(() => {
     let cancelled = false;
 
@@ -23,13 +36,19 @@ export default function CustomerPage() {
         setLoading(true);
         setError(null);
 
-        const res = await fetch("/src/mocks/customers.json");
-        if (!res.ok) throw new Error("Failed to load customers.json");
+        const [customersData, rentalsData, carsData] = await Promise.all([
+          getCustomers(),
+          getRentals(),
+          getCars(),
+        ]);
 
-        const data: CustomerJson[] = await res.json();
-        if (!cancelled) setCustomers(data);
+        if (!cancelled) {
+          setCustomers(customersData);
+          setRentals(rentalsData);
+          setCars(carsData);
+        }
       } catch (e: any) {
-        if (!cancelled) setError(e?.message ?? "Failed to load customers");
+        if (!cancelled) setError(e?.message ?? "Failed to load customer data");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -40,23 +59,82 @@ export default function CustomerPage() {
     };
   }, []);
 
-  // Search + filter logic
-const filtered = useMemo(() => {
-  const q = query.trim().toLowerCase();
+  // Build lookup maps for faster joins (customer -> rentals -> car name)
+  const carById = useMemo(() => {
+    const map = new Map<number, CarType>();
+    cars.forEach((c) => map.set(c.id, c));
+    return map;
+  }, [cars]);
 
-  return customers.filter((c) => {
-    const matchesQuery =
-      !q ||
-      c.fullName.toLowerCase().includes(q) ||
-      c.email.toLowerCase().includes(q) ||
-      c.phone.toLowerCase().includes(q) ||
-      c.address.toLowerCase().includes(q);
+  const rentalsByCustomerId = useMemo(() => {
+    const map = new Map<number, RentalType[]>();
+    rentals.forEach((r) => {
+      const arr = map.get(r.customerId) ?? [];
+      arr.push(r);
+      map.set(r.customerId, arr);
+    });
+    return map;
+  }, [rentals]);
 
-    const matchesStatus =
-      statusFilter === "all" ? true : c.status === statusFilter;
-    return matchesQuery && matchesStatus;
-  });
-}, [customers, query, statusFilter]);
+  // Derive UI fields: totalRentals, totalSpent, currentRental (from rentals)
+  const customersVM: CustomerVM[] = useMemo(() => {
+    return customers.map((c) => {
+      const custRentals = rentalsByCustomerId.get(c.id) ?? [];
+
+      const totalRentals = custRentals.length;
+
+      const totalSpent = custRentals.reduce(
+        (sum, r) => sum + (r.totalAmount ?? 0),
+        0
+      );
+
+      // ✅ Your RentalType uses lowercase statuses: "active" | "upcoming" | ...
+      // Find active rental (or UPCOMING if no active)
+      const active = custRentals.find((r) => r.rentalStatus === "active");
+      const upcoming = custRentals.find((r) => r.rentalStatus === "upcoming");
+      const current = active ?? upcoming ?? null;
+
+      let currentRental: CustomerVM["currentRental"] = null;
+
+      if (current) {
+        const car = carById.get(current.carId);
+        const carName = car
+          ? `${car.make} ${car.model} ${car.year}`
+          : `Car #${current.carId}`;
+
+        currentRental = {
+          carName,
+          startDate: current.startDate,
+          endDate: current.endDate,
+        };
+      }
+
+      return {
+        ...c,
+        totalRentals,
+        totalSpent,
+        currentRental,
+      };
+    });
+  }, [customers, rentalsByCustomerId, carById]);
+
+  // Search + filter logic (same style as your car filter)
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+
+    return customersVM.filter((c) => {
+      const matchesQuery =
+        !q ||
+        c.fullName.toLowerCase().includes(q) ||
+        c.email.toLowerCase().includes(q) ||
+        c.phone.toLowerCase().includes(q) ||
+        c.address.toLowerCase().includes(q);
+
+      const matchesStatus = statusFilter === "all" ? true : c.status === statusFilter;
+
+      return matchesQuery && matchesStatus;
+    });
+  }, [customersVM, query, statusFilter]);
 
   return (
     <PageLayout title="Customers" icon={<Users size={18} />}>
@@ -67,7 +145,10 @@ const filtered = useMemo(() => {
           <div className="flex flex-col gap-3 md:flex-row md:items-center">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Search
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+              />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -75,7 +156,6 @@ const filtered = useMemo(() => {
                 placeholder="Search by name, email, or phone number..."
               />
             </div>
-
 
             {/* Status filter */}
             <div className="flex items-center gap-2">
@@ -91,7 +171,6 @@ const filtered = useMemo(() => {
                 <option value="inactive">Inactive</option>
               </select>
             </div>
-
 
             {/* Add button */}
             <button
@@ -117,6 +196,9 @@ const filtered = useMemo(() => {
             <CustomerCard
               key={c.id}
               customer={c}
+              totalRentals={c.totalRentals}
+              totalSpent={c.totalSpent}
+              currentRental={c.currentRental}
               onEdit={(id) => console.log("Edit customer", id)}
               onDelete={(id) => console.log("Delete customer", id)}
             />

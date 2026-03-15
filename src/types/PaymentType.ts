@@ -1,8 +1,8 @@
-export interface PaymentJson {
+export interface PaymentType {
   id: number;
-  rental_id: number;
+  rentalId: number;
   amount: number;
-  payment_date: string;
-  method: "CASH" | "CARD" | "TRANSFER";
-  status: "PAID" | "PENDING";
+  paymentDate: string;
+  method: "cash" | "card" | "transfer";
+  status: "paid" | "pending";
 }

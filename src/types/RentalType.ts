@@ -1,24 +1,24 @@
 export type RentalStatus = "active" | "upcoming" | "completed" | "cancelled";
 export type PaymentStatus = "paid" | "partial" | "unpaid";
 
-export interface Rental {
+export interface RentalType {
   id: number;
 
-  car_id: number;
-  customer_id: number;
+  carId: number;
+  customerId: number;
 
-  start_date: string; // YYYY-MM-DD
-  end_date: string;   // YYYY-MM-DD
+  startDate: string; // YYYY-MM-DD
+  endDate: string;   // YYYY-MM-DD
 
-  pickup_location: string;
-  dropoff_location: string;
+  pickupLocation: string;
+  dropoffLocation: string;
 
-  total_amount: number;
-  paid_amount: number;
+  totalAmount: number;
+  paidAmount: number;
 
-  rental_status: RentalStatus;
-  payment_status: PaymentStatus;
+  rentalStatus: RentalStatus;
+  paymentStatus: PaymentStatus;
 
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }

@@ -7,49 +7,65 @@ import QuickActionsCard from "../components/notifications/QuickActionCard";
 
 import { Bell } from "lucide-react";
 
-import notificationsMock from "../mocks/notifications.json";
-import settingsMock from "../mocks/notificationSettings.json";
+import {
+  dismissNotification,
+  getNotifications,
+  markAllNotificationsRead,
+  markNotificationRead,
+} from "../services/notifications.service";
+import {
+  getNotificationSettings,
+  updateNotificationSettings,
+} from "../services/notificationSettings.service";
 
-type Severity = "low" | "medium" | "high";
-type Notification = {
-  id: number;
-  title: string;
-  message: string;
-  severity: Severity;
-  tags: string[];
-  created_at: string;
-  read: boolean;
-};
-
-type Settings = {
-  paymentReminders: boolean;
-  rentalReminders: boolean;
-  maintenanceAlerts: boolean;
-  newBookings: boolean;
-  emailNotifications: boolean;
-  smsNotifications: boolean;
-};
+import { NotificationType } from "../types/NotificationType";
+import { NotificationSettingsType } from "../types/NotificationSettingsType";
 
 export default function NotificationsPage() {
-  const [items, setItems] = useState<Notification[]>([]);
-  const [settings, setSettings] = useState<Settings>(settingsMock as any);
+  const [items, setItems] = useState<NotificationType[]>([]);
+  const [settings, setSettings] = useState<NotificationSettingsType | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setItems(notificationsMock as any);
+    (async () => {
+      setLoading(true);
+
+      const [notifData, settingsData] = await Promise.all([
+        getNotifications(),
+        getNotificationSettings(),
+      ]);
+
+      setItems(notifData);
+      setSettings(settingsData);
+      setLoading(false);
+    })();
   }, []);
 
-  const unreadCount = useMemo(() => items.filter((n) => !n.read).length, [items]);
+  const unreadCount = useMemo(
+    () => items.filter((n) => !n.read).length,
+    [items]
+  );
 
-  const markAllRead = () => {
+  const onMarkAllRead = async () => {
+    await markAllNotificationsRead();
     setItems((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
-  const dismiss = (id: number) => {
+  const onDismiss = async (id: number) => {
+    await dismissNotification(id);
     setItems((prev) => prev.filter((n) => n.id !== id));
   };
 
-  const markRead = (id: number) => {
-    setItems((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+  const onMarkRead = async (id: number) => {
+    await markNotificationRead(id);
+    setItems((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, read: true } : n))
+    );
+  };
+
+  const onChangeSettings = async (next: NotificationSettingsType) => {
+    setSettings(next);
+    await updateNotificationSettings(next);
   };
 
   return (
@@ -57,14 +73,14 @@ export default function NotificationsPage() {
       <PageHeader
         title="Notifications"
         description="Stay updated with payment reminders and rental alerts"
-        right={
+        toolbar={
           <div className="flex items-center gap-3">
             <div className="rounded-full bg-muted px-3 py-1 text-xs font-semibold">
               {unreadCount} unread
             </div>
             <button
               className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-semibold hover:bg-muted"
-              onClick={markAllRead}
+              onClick={onMarkAllRead}
             >
               Mark all as read
             </button>
@@ -72,33 +88,40 @@ export default function NotificationsPage() {
         }
       />
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-        {/* Left: notifications list */}
-        <div className="lg:col-span-2 rounded-xl border border-border bg-card p-4">
-          <div className="mb-4 font-semibold">Recent Notifications</div>
+      {loading || !settings ? (
+        <div className="text-sm text-muted-foreground">Loading...</div>
+      ) : (
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2 rounded-xl border border-border bg-card p-4">
+            <div className="mb-4 font-semibold">Recent Notifications</div>
 
-          <div className="space-y-4">
-            {items.map((n) => (
-              <NotificationItem
-                key={n.id}
-                item={n}
-                onDismiss={() => dismiss(n.id)}
-                onMarkRead={() => markRead(n.id)}
-              />
-            ))}
+            <div className="space-y-4">
+              {items.map((n) => (
+                <NotificationItem
+                  key={n.id}
+                  item={n}
+                  onDismiss={() => onDismiss(n.id)}
+                  onMarkRead={() => onMarkRead(n.id)}
+                />
+              ))}
 
-            {items.length === 0 && (
-              <div className="text-sm text-muted-foreground">No notifications.</div>
-            )}
+              {items.length === 0 && (
+                <div className="text-sm text-muted-foreground">
+                  No notifications.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <NotificationSettingsCard
+              settings={settings}
+              onChange={onChangeSettings}
+            />
+            <QuickActionsCard />
           </div>
         </div>
-
-        {/* Right: settings + quick actions */}
-        <div className="space-y-6">
-          <NotificationSettingsCard settings={settings} onChange={setSettings} />
-          <QuickActionsCard />
-        </div>
-      </div>
+      )}
     </PageLayout>
   );
 }
