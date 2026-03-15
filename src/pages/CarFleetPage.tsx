@@ -2,19 +2,23 @@ import { useEffect, useMemo, useState } from "react";
 import PageLayout from "../components/layout/PageLayout";
 import PageHeader from "../components/layout/PageHeader";
 import CarCard from "../components/cars/CarCard";
-import { CarFleetJson } from "../types/CarFleetJson";
+
+import { CarType } from "../types/CarType";
+import { getCars } from "../services/cars.service";
+
 import { Car as CarIcon, Filter, Search, Plus } from "lucide-react";
 
 type StatusFilter = "all" | "available" | "rented" | "maintenance";
 
 export default function CarFleetPage() {
-  const [cars, setCars] = useState<CarFleetJson[]>([]);
+  const [cars, setCars] = useState<CarType[]>([]);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load car data from JSON
+  // ✅ Load via centralized service
   useEffect(() => {
     let cancelled = false;
 
@@ -23,11 +27,11 @@ export default function CarFleetPage() {
         setLoading(true);
         setError(null);
 
-        const res = await fetch("/src/mocks/cars.json");
-        if (!res.ok) throw new Error("Failed to load cars.json");
+        const data = await getCars();
 
-        const data: CarFleetJson[] = await res.json();
-        if (!cancelled) setCars(data);
+        if (!cancelled) {
+          setCars(data);
+        }
       } catch (e: any) {
         if (!cancelled) setError(e?.message ?? "Failed to load cars");
       } finally {
@@ -40,7 +44,7 @@ export default function CarFleetPage() {
     };
   }, []);
 
-  // Search + filter logic
+  // Search + filter logic (unchanged)
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
 
@@ -51,7 +55,8 @@ export default function CarFleetPage() {
         String(c.year).includes(q) ||
         c.licensePlate.toLowerCase().includes(q);
 
-      const matchesStatus = statusFilter === "all" ? true : c.status === statusFilter;
+      const matchesStatus =
+        statusFilter === "all" ? true : c.status === statusFilter;
 
       return matchesQuery && matchesStatus;
     });
@@ -63,11 +68,13 @@ export default function CarFleetPage() {
         title="Car Fleet"
         description="Manage your rental car inventory"
         toolbar={
-          // Toolbar row: Search + Filter + Add button
           <div className="flex flex-col gap-3 md:flex-row md:items-center">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Search
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+              />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -104,12 +111,14 @@ export default function CarFleetPage() {
         }
       />
 
-      {/* Loading/Error */}
-      {loading ? <div className="text-sm text-muted-foreground">Loading cars…</div> : null}
-      {error ? <div className="text-sm text-destructive">{error}</div> : null}
+      {/* Loading / Error */}
+      {loading && (
+        <div className="text-sm text-muted-foreground">Loading cars…</div>
+      )}
+      {error && <div className="text-sm text-destructive">{error}</div>}
 
       {/* Cars grid */}
-      {!loading && !error ? (
+      {!loading && !error && (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {filtered.map((car) => (
             <CarCard
@@ -120,13 +129,13 @@ export default function CarFleetPage() {
             />
           ))}
 
-          {filtered.length === 0 ? (
+          {filtered.length === 0 && (
             <div className="text-sm text-muted-foreground">
               No cars found. Try another search or filter.
             </div>
-          ) : null}
+          )}
         </div>
-      ) : null}
+      )}
     </PageLayout>
   );
 }

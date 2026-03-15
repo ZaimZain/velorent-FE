@@ -33,26 +33,26 @@ function daysRemaining(end: string) {
   return diff;
 }
 
-function rentalBadge(status: Rental["rental_status"]) {
+function rentalBadge(status: Rental["rentalStatus"]) {
   switch (status) {
-    case "ACTIVE":
+    case "active":
       return <Pill variant="active">active</Pill>;
-    case "UPCOMING":
+    case "upcoming":
       return <Pill variant="upcoming">upcoming</Pill>;
-    case "COMPLETED":
+    case "completed":
       return <Pill variant="muted">completed</Pill>;
-    case "CANCELLED":
+    case "cancelled":
       return <Pill variant="destructive">cancelled</Pill>;
   }
 }
 
-function paymentBadge(status: Rental["payment_status"]) {
+function paymentBadge(status: Rental["paymentStatus"]) {
   switch (status) {
-    case "PAID":
+    case "paid":
       return <Pill variant="active">paid</Pill>;
-    case "PARTIAL":
+    case "partial":
       return <Pill variant="warning">partial</Pill>;
-    case "UNPAID":
+    case "unpaid":
       // UI label in screenshot is "overdue" (for unpaid)
       return <Pill variant="destructive">overdue</Pill>;
   }
@@ -66,12 +66,12 @@ interface Props {
 }
 
 export default function RentalCard({ rental, onView, onEnd, onReminder }: Props) {
-  const due = Math.max(0, rental.total_amount - rental.paid_amount);
-  const remaining = daysRemaining(rental.end_date);
+  const due = Math.max(0, rental.totalAmount - rental.paidAmount);
+  const remaining = daysRemaining(rental.endDate);
 
   // ✅ Rules you requested:
-  const showSendReminder = rental.payment_status === "UNPAID" && due > 0; // only overdue
-  const showEndRental = rental.rental_status === "ACTIVE";      // only active rentals
+  const showSendReminder = rental.paymentStatus === "unpaid" && due > 0; // only overdue
+  const showEndRental = rental.rentalStatus === "active";      // only active rentals
 
   return (
     <div className="rounded-xl border border-border bg-card">
@@ -111,7 +111,7 @@ export default function RentalCard({ rental, onView, onEnd, onReminder }: Props)
             <div>{rental.car.licensePlate}</div>
             <div className="flex items-center gap-2">
               <MapPin size={14} />
-              {rental.pickup_location}
+              {rental.pickupLocation}
             </div>
           </div>
         </div>
@@ -124,8 +124,8 @@ export default function RentalCard({ rental, onView, onEnd, onReminder }: Props)
           </div>
 
           <div className="mt-3 space-y-1 text-sm text-muted-foreground">
-            <div>From: {rental.start_date}</div>
-            <div>To: {rental.end_date}</div>
+            <div>From: {rental.startDate}</div>
+            <div>To: {rental.endDate}</div>
             <div className="flex items-center gap-2">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />
               {remaining >= 0 ? `${remaining} days remaining` : `${Math.abs(remaining)} days late`}
@@ -141,8 +141,8 @@ export default function RentalCard({ rental, onView, onEnd, onReminder }: Props)
           </div>
 
           <div className="mt-3 space-y-1 text-sm text-muted-foreground">
-            <div>Total: {formatRM(rental.total_amount)}</div>
-            <div>Paid: {formatRM(rental.paid_amount)}</div>
+            <div>Total: {formatRM(rental.totalAmount)}</div>
+            <div>Paid: {formatRM(rental.paidAmount)}</div>
             <div className={due > 0 ? "text-destructive font-semibold" : ""}>
               Due: {formatRM(due)}
             </div>
@@ -156,8 +156,8 @@ export default function RentalCard({ rental, onView, onEnd, onReminder }: Props)
       {/* Footer: badges + actions */}
       <div className="flex flex-col gap-3 p-5 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-2">
-          {rentalBadge(rental.rental_status)}
-          {paymentBadge(rental.payment_status)}
+          {rentalBadge(rental.rentalStatus)}
+          {paymentBadge(rental.paymentStatus)}
         </div>
 
         <div className="flex items-center gap-2">
@@ -168,7 +168,7 @@ export default function RentalCard({ rental, onView, onEnd, onReminder }: Props)
             View Details
           </button>
 
-          {/* ✅ Only overdue (UNPAID) */}
+          {/* ✅ Only overdue (unpaid) */}
           {showSendReminder && (
             <button
               className="rounded-lg bg-destructive px-4 py-2 text-sm font-semibold text-destructive-foreground hover:opacity-95"

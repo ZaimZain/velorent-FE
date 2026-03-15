@@ -7,11 +7,11 @@
       "licensePlate": "ABC-123",
       "status": "rented",
       "color": "Silver",
-      "fuelType": "Hybrid",
+      "fuelType": "hybrid",
       "dailyRate": 189,
-      "currentRenter": "Ahmad Rizal",
-      "dueDate": "2024-10-01",
-      "image": "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400"
+      "image": "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400",
+      "createdAt": "2024-01-10T08:00:00",
+      "updatedAt": "2024-09-18T10:00:00"
     },
     {
       "id": 2,
@@ -21,11 +21,11 @@
       "licensePlate": "DEF-456",
       "status": "available",
       "color": "Blue",
-      "fuelType": "Gasoline",
+      "fuelType": "gasoline",
       "dailyRate": 147,
-      "currentRenter": null,
-      "dueDate": null,
-      "image": "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400"
+      "image": "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400",
+      "createdAt": "2024-01-10T08:00:00",
+      "updatedAt": "2024-09-18T10:00:00"
     },
     {
       "id": 3,
@@ -35,11 +35,11 @@
       "licensePlate": "GHI-789",
       "status": "maintenance",
       "color": "Black",
-      "fuelType": "Gasoline",
+      "fuelType": "gasoline",
       "dailyRate": 315,
-      "currentRenter": null,
-      "dueDate": null,
-      "image": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400"
+      "image": "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400",
+      "createdAt": "2024-01-10T08:00:00",
+      "updatedAt": "2024-09-18T10:00:00"
     },
     {
       "id": 4,
@@ -49,11 +49,11 @@
       "licensePlate": "JKL-012",
       "status": "available",
       "color": "White",
-      "fuelType": "Gasoline",
+      "fuelType": "gasoline",
       "dailyRate": 357,
-      "currentRenter": null,
-      "dueDate": null,
-      "image": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400"
+      "image": "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400",
+      "createdAt": "2024-01-10T08:00:00",
+      "updatedAt": "2024-09-18T10:00:00"
     },
     {
       "id": 5,
@@ -63,11 +63,11 @@
       "licensePlate": "MNO-345",
       "status": "rented",
       "color": "Red",
-      "fuelType": "Gasoline",
+      "fuelType": "gasoline",
       "dailyRate": 273,
-      "currentRenter": "Siti Nurhaliza",
-      "dueDate": "2024-09-28",
-      "image": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400"
+      "image": "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400",
+      "createdAt": "2024-01-10T08:00:00",
+      "updatedAt": "2024-09-18T10:00:00"
     },
     {
       "id": 6,
@@ -77,10 +77,10 @@
       "licensePlate": "PQR-678",
       "status": "available",
       "color": "Blue",
-      "fuelType": "Electric",
+      "fuelType": "electric",
       "dailyRate": 294,
-      "currentRenter": null,
-      "dueDate": null,
-      "image": "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400"
+      "image": "https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400",
+      "createdAt": "2024-01-10T08:00:00",
+      "updatedAt": "2024-09-18T10:00:00"
     }
-  ]
+]

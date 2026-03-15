@@ -2,19 +2,36 @@ import { useEffect, useMemo, useState } from "react";
 import PageLayout from "../components/layout/PageLayout";
 import PageHeader from "../components/layout/PageHeader";
 import RentalRowCard from "../components/rentals/RentalCard";
-import { Rental, RentalStatus } from "../types/Rental";
-import { ClipboardList, Search, Filter, Plus } from "lucide-react";
 
-// Replace these with your real interfaces if you already have them
-type CustomerMock = { id: number; fullName: string; email: string; phone: string };
-type CarMock = { id: number; make: string; model: string; year: number; licensePlate: string };
+import { RentalType, RentalStatus } from "../types/RentalType";
+import { CustomerType } from "../types/CustomerType";
+import { CarType } from "../types/CarType";
+
+import { getRentals } from "../services/rentals.service";
+import { getCustomers } from "../services/customers.service";
+import { getCars } from "../services/cars.service";
+
+import { ClipboardList, Search, Filter, Plus } from "lucide-react";
 
 type RentalStatusFilter = "all" | RentalStatus;
 
+// What the RentalCard needs (rental + joined display fields)
+type JoinedRental = RentalType & {
+  customer: {
+    fullName: string;
+    email: string;
+    phone: string;
+  };
+  car: {
+    displayName: string; // e.g. "2023 Toyota Camry"
+    licensePlate: string;
+  };
+};
+
 export default function RentalStatusPage() {
-  const [rentals, setRentals] = useState<Rental[]>([]);
-  const [customers, setCustomers] = useState<CustomerMock[]>([]);
-  const [cars, setCars] = useState<CarMock[]>([]);
+  const [rentals, setRentals] = useState<RentalType[]>([]);
+  const [customers, setCustomers] = useState<CustomerType[]>([]);
+  const [cars, setCars] = useState<CarType[]>([]);
 
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<RentalStatusFilter>("all");
@@ -22,7 +39,7 @@ export default function RentalStatusPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Load mocks (later swap to API service)
+  // ✅ Load data via centralized services (mock JSON or API, controlled by USE_API)
   useEffect(() => {
     let cancelled = false;
 
@@ -31,20 +48,10 @@ export default function RentalStatusPage() {
         setLoading(true);
         setError(null);
 
-        const [rRes, cRes, carRes] = await Promise.all([
-          fetch("/src/mocks/rentals.json"),
-          fetch("/src/mocks/customers.json"),
-          fetch("/src/mocks/cars.json"),
-        ]);
-
-        if (!rRes.ok) throw new Error("Failed to load rentals.json");
-        if (!cRes.ok) throw new Error("Failed to load customers.json");
-        if (!carRes.ok) throw new Error("Failed to load cars.json");
-
         const [rData, cData, carData] = await Promise.all([
-          rRes.json(),
-          cRes.json(),
-          carRes.json(),
+          getRentals(),
+          getCustomers(),
+          getCars(),
         ]);
 
         if (!cancelled) {
@@ -53,7 +60,7 @@ export default function RentalStatusPage() {
           setCars(carData);
         }
       } catch (e: any) {
-        if (!cancelled) setError(e?.message ?? "Failed to load data");
+        if (!cancelled) setError(e?.message ?? "Failed to load rentals data");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -64,26 +71,27 @@ export default function RentalStatusPage() {
     };
   }, []);
 
-  // Build lookup maps for joining rentals -> customers/cars (best practice for normalized frontend data)
+  // ✅ Lookup maps: rental.customerId -> customer, rental.carId -> car
   const customerById = useMemo(() => {
-    const map = new Map<number, CustomerMock>();
+    const map = new Map<number, CustomerType>();
     customers.forEach((c) => map.set(c.id, c));
     return map;
   }, [customers]);
 
   const carById = useMemo(() => {
-    const map = new Map<number, CarMock>();
+    const map = new Map<number, CarType>();
     cars.forEach((c) => map.set(c.id, c));
     return map;
   }, [cars]);
 
-  // Join rentals with customer + car display fields for UI
-  const joined = useMemo(() => {
+  // ✅ Join rentals with customer + car display fields
+  const joined: JoinedRental[] = useMemo(() => {
     return rentals
       .map((r) => {
-        const customer = customerById.get(r.customer_id);
-        const car = carById.get(r.car_id);
+        const customer = customerById.get(r.customerId);
+        const car = carById.get(r.carId);
 
+        // If relations are missing, skip row (prevents crash)
         if (!customer || !car) return null;
 
         return {
@@ -99,10 +107,10 @@ export default function RentalStatusPage() {
           },
         };
       })
-      .filter(Boolean);
+      .filter(Boolean) as JoinedRental[];
   }, [rentals, customerById, carById]);
 
-  // Standard search + status filter (same style as your Car filter)
+  // ✅ Standard search + status filter (same style as car/customer)
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
 
@@ -115,7 +123,7 @@ export default function RentalStatusPage() {
         r.car.displayName.toLowerCase().includes(q) ||
         r.car.licensePlate.toLowerCase().includes(q);
 
-      const matchesStatus = statusFilter === "all" ? true : r.rental_status === statusFilter;
+      const matchesStatus = statusFilter === "all" ? true : r.rentalStatus === statusFilter;
 
       return matchesQuery && matchesStatus;
     });
@@ -128,9 +136,12 @@ export default function RentalStatusPage() {
         description="Track and manage all your active and past rentals"
         toolbar={
           <div className="flex flex-col gap-3 md:flex-row md:items-center">
-            {/* Search (full width like screenshot) */}
+            {/* Search */}
             <div className="relative flex-1">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <Search
+                size={16}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+              />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
@@ -139,7 +150,7 @@ export default function RentalStatusPage() {
               />
             </div>
 
-            {/* Status filter (one dropdown like screenshot) */}
+            {/* Status filter */}
             <div className="flex items-center gap-2">
               <Filter size={16} className="text-muted-foreground" />
               <select
@@ -148,14 +159,14 @@ export default function RentalStatusPage() {
                 className="rounded-lg border border-border bg-card px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
               >
                 <option value="all">All Status</option>
-                <option value="ACTIVE">Active</option>
-                <option value="UPCOMING">Upcoming</option>
-                <option value="COMPLETED">Completed</option>
-                <option value="CANCELLED">Cancelled</option>
+                <option value="active">Active</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="completed">Completed</option>
+                <option value="cancelled">Cancelled</option>
               </select>
             </div>
 
-            {/* Add button (right aligned like screenshot) */}
+            {/* Add button */}
             <button
               className="inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground hover:opacity-95"
               onClick={() => console.log("Add New Rental")}
@@ -171,13 +182,13 @@ export default function RentalStatusPage() {
       {loading && <div className="text-sm text-muted-foreground">Loading rentals…</div>}
       {error && <div className="text-sm text-destructive">{error}</div>}
 
-      {/* List of row cards */}
+      {/* Rows */}
       {!loading && !error && (
         <div className="space-y-5">
           {filtered.map((r) => (
             <RentalRowCard
               key={r.id}
-              rental={r as any}
+              rental={r as any} // if your RentalCard expects JoinedRental type, you can type it properly there too
               onView={(id) => console.log("View", id)}
               onReminder={(id) => console.log("Reminder", id)}
               onEnd={(id) => console.log("End", id)}
