@@ -3,15 +3,15 @@ import PageLayout from "../components/layout/PageLayout";
 import PageHeader from "../components/layout/PageHeader";
 import CarCard from "../components/cars/CarCard";
 
-import { CarType } from "../types/CarType";
+import { CarFleetJson } from "../types/CarFleetType";
 import { getCars } from "../services/cars.service";
 
 import { Car as CarIcon, Filter, Search, Plus } from "lucide-react";
 
-type StatusFilter = "all" | "available" | "rented" | "maintenance";
+type StatusFilter = "all" | "AVAILABLE" | "RENTED" | "MAINTENANCE";
 
 export default function CarFleetPage() {
-  const [cars, setCars] = useState<CarType[]>([]);
+  const [cars, setCars] = useState<CarFleetJson[]>([]);
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
 
@@ -44,6 +44,13 @@ export default function CarFleetPage() {
     };
   }, []);
 
+  // Handle updating a single car when edited
+  const handleCarUpdated = (updatedCar: CarFleetJson) => {
+    setCars((prevCars) =>
+      prevCars.map((car) => (car.carId === updatedCar.carId ? updatedCar : car))
+    );
+  };
+
   // Search + filter logic (unchanged)
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -51,12 +58,12 @@ export default function CarFleetPage() {
     return cars.filter((c) => {
       const matchesQuery =
         !q ||
-        `${c.make} ${c.model}`.toLowerCase().includes(q) ||
+        `${c.brand} ${c.model}`.toLowerCase().includes(q) ||
         String(c.year).includes(q) ||
-        c.licensePlate.toLowerCase().includes(q);
+        c.plateNumber.toLowerCase().includes(q);
 
       const matchesStatus =
-        statusFilter === "all" ? true : c.status === statusFilter;
+        statusFilter === "all" ? true : c.carStatus === statusFilter;
 
       return matchesQuery && matchesStatus;
     });
@@ -92,9 +99,9 @@ export default function CarFleetPage() {
                 className="rounded-lg border border-border bg-card px-3 py-2 text-sm focus:ring-2 focus:ring-ring focus:outline-none"
               >
                 <option value="all">All Status</option>
-                <option value="available">Available</option>
-                <option value="rented">Rented</option>
-                <option value="maintenance">Maintenance</option>
+                <option value="AVAILABLE">Available</option>
+                <option value="RENTED">Rented</option>
+                <option value="MAINTENANCE">Maintenance</option>
               </select>
             </div>
 
@@ -117,17 +124,18 @@ export default function CarFleetPage() {
       )}
       {error && <div className="text-sm text-destructive">{error}</div>}
 
-      {/* Cars grid */}
-      {!loading && !error && (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-          {filtered.map((car) => (
-            <CarCard
-              key={car.id}
-              car={car}
-              onEdit={(id) => console.log("Edit", id)}
-              onDelete={(id) => console.log("Delete", id)}
-            />
-          ))}
+       {/* Cars grid */}
+       {!loading && !error && (
+         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+           {filtered.map((car) => (
+             <CarCard
+               key={car.carId}
+               car={car}
+               onEdit={(id) => console.log("Edit", id)}
+               onDelete={(id) => console.log("Delete", id)}
+               onCarUpdated={handleCarUpdated}
+             />
+           ))}
 
           {filtered.length === 0 && (
             <div className="text-sm text-muted-foreground">
