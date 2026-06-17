@@ -96,10 +96,10 @@ export default function CarCard({ car, onEdit, onDelete, onCarUpdated }: CarCard
             <div className="text-right font-semibold">RM {currentCar.dailyRate}</div>
 
             {/* Rented-only fields (these are from your JSON) */}
-            {currentCar.carStatus === "RENTED" && currentCar.renterFullName ? (
+            {currentCar.carStatus === "RENTED" && currentCar.agentFullName ? (
               <>
-                <div className="text-muted-foreground">Renter:</div>
-                <div className="text-right">{currentCar.renterFullName}</div>
+                <div className="text-muted-foreground">Car Owner:</div>
+                <div className="text-right">{currentCar.agentFullName}</div>
               </>
             ) : null}
           </div>
