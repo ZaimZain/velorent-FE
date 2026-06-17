@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 
 import logoUrl from "../../assets/VelorentLogo-nobg.png"; // <-- put the png here
+import { logoutUser } from "../../utils/Auth";
 
 type NavItem = {
   label: string;
@@ -111,11 +112,7 @@ export default function NavSidebar() {
 
         <button
           type="button"
-          onClick={() => {
-            // wire to your real logoutUser(navigate) if you want:
-            // logoutUser(navigate);
-            navigate("/");
-          }}
+          onClick={() => logoutUser(navigate)}
           className="
             w-full mt-3 flex items-center gap-2
             px-4 py-2.5 rounded-lg text-sm font-semibold

@@ -44,7 +44,7 @@ const Login = () => {
 
   const handleActivity = () => {
     if (idleTimer) clearTimeout(idleTimer);
-    setIdleTimer(setTimeout(logout, 60000)); // 1 minute
+    setIdleTimer(setTimeout(logout, 6000000)); // 1 minute
   };
 
   const setupIdleTimer = () => {
