@@ -1,4 +1,5 @@
 import { ExternalLink, Moon, Store } from "lucide-react";
+import logoUrl from "../../assets/VelorentLogo-nobg-blue.png";
 
 interface NavTopbarProps {
   title: string;
@@ -9,10 +10,19 @@ export default function NavTopbar({ title, icon }: NavTopbarProps) {
   return (
     <div className="h-16 px-6 flex items-center justify-between">
       <div className="flex items-center gap-3">
+        <img
+          src={logoUrl}
+          alt="Velorent"
+          className="
+            xl:hidden
+            h-8
+            w-auto
+            object-contain
+          "
+        />
         {icon ? (
           <div className="text-foreground/80">{icon}</div>
         ) : null}
-
         <div className="font-semibold text-xl">{title}</div>
       </div>
 
