@@ -1,15 +1,6 @@
 import { useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  LayoutDashboard,
-  Car,
-  ClipboardList,
-  Users,
-  CalendarDays,
-  Bell,
-  LogOut,
-  Store,
-} from "lucide-react";
+import { Menu, LayoutDashboard, Car, ClipboardList, Users, CalendarDays, Bell, LogOut, Store } from "lucide-react";
 
 import logoUrl from "../../assets/VelorentLogo-nobg.png"; // <-- put the png here
 import { logoutUser } from "../../utils/Auth";
@@ -20,7 +11,12 @@ type NavItem = {
   icon: React.ReactNode;
 };
 
-export default function NavSidebar() {
+interface NavSidebarProps {
+  collapsed: boolean;
+  setCollapsed: (value: boolean) => void;
+}
+
+export default function NavSidebar({ collapsed, setCollapsed }: NavSidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,16 +34,37 @@ export default function NavSidebar() {
 
   return (
     <div className="h-full flex flex-col">
-      {/* Logo block */}
-      <div className="px-6 pt-8 pb-6 flex items-center justify-center">
-        <img
-          src={logoUrl}
-          alt="Velorent"
-          className="h-10 w-auto select-none"
-          draggable={false}
-        />
+      {/* Sidebar Header */}
+      <div className="h-16 flex items-center justify-center border-b border-sidebar-border">
+        <button
+          type="button"
+          onClick={() => setCollapsed(!collapsed)}
+          className="
+            w-10 h-10
+            flex items-center justify-center
+            rounded-lg
+            hover:bg-sidebar-accent
+            transition
+          "
+        >
+          <Menu size={20}/>
+        </button>
       </div>
 
+      {/* Logo block */}
+      <div
+          className="h-24 flex items-center justify-center">
+          {!collapsed && (
+            <img
+              src={logoUrl}
+              alt="Velorent"
+              className="h-16 w-auto select-none"
+              draggable={false}
+            />
+          )}
+        </div>
+      {/* Divider */}
+      <div className="mx-4 my-5 border-t border-sidebar-border" />
       {/* Nav */}
       <nav className="px-4 flex-1">
         <ul className="space-y-1">
@@ -68,7 +85,7 @@ export default function NavSidebar() {
                   ].join(" ")}
                 >
                   <span className={active ? "opacity-95" : "opacity-80"}>{item.icon}</span>
-                  <span>{item.label}</span>
+                  {!collapsed && <span>{item.label}</span>}
                 </button>
               </li>
             );

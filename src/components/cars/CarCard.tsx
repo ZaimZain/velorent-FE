@@ -75,10 +75,10 @@ export default function CarCard({ car, onEdit, onDelete, onCarUpdated }: CarCard
         </div>
 
         {/* Card body - flex-1 to push buttons to bottom */}
-        <div className="p-4 flex flex-col flex-1">
+        <div className="p-6 flex flex-col flex-1">
           {/* Title */}
           <div>
-            <div className="font-semibold">
+            <div className="text-xl font-semibold">
               {currentCar.year} {currentCar.brand} {currentCar.model}
             </div>
             <div className="text-sm text-muted-foreground">{currentCar.plateNumber}</div>

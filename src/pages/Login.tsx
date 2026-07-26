@@ -10,7 +10,6 @@ const Login = () => {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
-  const [idleTimer, setIdleTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,7 +27,6 @@ const Login = () => {
         localStorage.setItem("username", user);
         localStorage.setItem("role", role);
 
-        setupIdleTimer();
         navigate("/dashboard");
       } else {
         setError(message || "Login failed");
@@ -41,27 +39,6 @@ const Login = () => {
   const logout = async () => {
     logoutUser(navigate);
   };
-
-  const handleActivity = () => {
-    if (idleTimer) clearTimeout(idleTimer);
-    setIdleTimer(setTimeout(logout, 6000000)); // 1 minute
-  };
-
-  const setupIdleTimer = () => {
-    window.addEventListener("mousemove", handleActivity);
-    window.addEventListener("keydown", handleActivity);
-  };
-
-  useEffect(() => {
-    setupIdleTimer();
-
-    return () => {
-      if (idleTimer) clearTimeout(idleTimer);
-      window.removeEventListener("mousemove", handleActivity);
-      window.removeEventListener("keydown", handleActivity);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [idleTimer]);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4">
