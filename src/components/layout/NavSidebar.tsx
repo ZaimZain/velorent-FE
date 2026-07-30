@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Menu, LayoutDashboard, Car, ClipboardList, Users, CalendarDays, Bell, LogOut, Store } from "lucide-react";
+import { LayoutDashboard, Car, ClipboardList, Users, CalendarDays, Bell, Store } from "lucide-react";
 
-import logoUrl from "../../assets/VelorentLogo-nobg.png"; // <-- put the png here
+import logoLight from "../../assets/VelorentLogo-nobg-blue.png";
+import logoDark from "../../assets/VelorentLogo-nobg-gold.png";
 import { logoutUser } from "../../utils/Auth";
 
 type NavItem = {
@@ -14,11 +15,31 @@ type NavItem = {
 interface NavSidebarProps {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
+  onNavigate?: () => void;
 }
 
-export default function NavSidebar({ collapsed, setCollapsed }: NavSidebarProps) {
+export default function NavSidebar({ collapsed, setCollapsed, onNavigate }: NavSidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [isDarkMode, setIsDarkMode] = useState(
+    document.documentElement.classList.contains("dark")
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDarkMode(
+        document.documentElement.classList.contains("dark")
+      );
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const items: NavItem[] = useMemo(
     () => [
@@ -33,40 +54,28 @@ export default function NavSidebar({ collapsed, setCollapsed }: NavSidebarProps)
   );
 
   return (
-    <div className="h-full flex flex-col">
-      {/* Sidebar Header */}
-      <div className="h-16 flex items-center justify-center border-b border-sidebar-border">
-        <button
-          type="button"
-          onClick={() => setCollapsed(!collapsed)}
-          className="
-            w-10 h-10
-            flex items-center justify-center
-            rounded-lg
-            hover:bg-sidebar-accent
-            transition
-          "
-        >
-          <Menu size={20}/>
-        </button>
-      </div>
-
+    <div className="h-full flex flex-col overflow-hidden transition-all duration-300">
       {/* Logo block */}
       <div
-          className="h-24 flex items-center justify-center">
-          {!collapsed && (
-            <img
-              src={logoUrl}
-              alt="Velorent"
-              className="h-16 w-auto select-none"
-              draggable={false}
-            />
-          )}
-        </div>
+        className={`
+          flex items-center justify-center transition-all duration-300
+          ${collapsed ? "h-20" : "h-48"}
+        `}>
+        <img
+          src={isDarkMode ? logoDark : logoLight}
+          alt="Velorent"
+          className={`
+            select-none
+            object-scale-down
+            ${collapsed ? "w-10 h-10" : "w-44 h-44"}
+          `}
+          draggable={false}
+        />
+      </div>
       {/* Divider */}
-      <div className="mx-4 my-5 border-t border-sidebar-border" />
+      <div className="mx-4 mb-5 border-t border-sidebar-border" />
       {/* Nav */}
-      <nav className="px-4 flex-1">
+      <nav className={`px-4 flex-1 ${collapsed ? "mt-2" : ""}`}>
         <ul className="space-y-1">
           {items.map((item) => {
             const active = location.pathname === item.path;
@@ -75,9 +84,13 @@ export default function NavSidebar({ collapsed, setCollapsed }: NavSidebarProps)
               <li key={item.path}>
                 <button
                   type="button"
+                  title={collapsed ? item.label : undefined}
                   onClick={() => navigate(item.path)}
                   className={[
-                    "w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition",
+                    "w-full flex items-center rounded-lg text-sm font-semibold transition-all duration-300",
+                    collapsed
+                      ? "justify-center px-2 py-2.5"
+                      : "gap-3 px-4 py-2.5",
                     "focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring",
                     active
                       ? "bg-primary text-primary-foreground shadow-sm"
@@ -97,48 +110,33 @@ export default function NavSidebar({ collapsed, setCollapsed }: NavSidebarProps)
       </nav>
 
       {/* Bottom actions */}
-      <div className="px-4 pb-5">
+      <div className={`px-4 pb-5 ${collapsed ? "px-2" : ""}`}>
         <button
           type="button"
-          onClick={() => navigate("/marketplace")} // change route if needed
+          title={collapsed ? "View Marketplace" : undefined}
+          onClick={() => navigate("/marketplace")}
           className="
             w-full mt-4 flex items-center justify-between
             px-4 py-2.5 rounded-lg text-sm font-semibold
             border border-border bg-card text-foreground
             hover:bg-muted transition
             focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring
-          "
-        >
-          <span className="flex items-center gap-2">
-            <Store size={18} className="opacity-80" />
-            View Marketplace
-          </span>
-
+          ">
           <span
-            className="
-              text-[11px] font-semibold
-              px-2 py-0.5 rounded-full
-              bg-primary text-primary-foreground
-            "
-          >
-            Public
+            className={
+              collapsed
+                ? "flex items-center justify-center w-full"
+                : "flex items-center gap-2"
+            }>
+            <Store size={18} className="opacity-80" />
+            {!collapsed && "View Marketplace"}
           </span>
-        </button>
 
-        <div className="mt-4 border-t border-sidebar-border" />
-
-        <button
-          type="button"
-          onClick={() => logoutUser(navigate)}
-          className="
-            w-full mt-3 flex items-center gap-2
-            px-4 py-2.5 rounded-lg text-sm font-semibold
-            text-destructive hover:bg-muted transition
-            focus-visible:outline focus-visible:outline-2 focus-visible:outline-ring
-          "
-        >
-          <LogOut size={18} />
-          Logout
+          {!collapsed && (
+            <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-primary text-primary-foreground">
+              Public
+            </span>
+          )}
         </button>
       </div>
     </div>
